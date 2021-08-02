@@ -75,7 +75,9 @@ if ($_SESSION['isLogin'] == false) {
                                                         <button class="btn btn-sm btn-warning btn-float rounded-circle" onclick="getData(<?php echo $user['id_user']; ?>)"><i class="fa fa-edit"></i></button>
                                                         <button class="btn btn-sm btn-danger btn-float rounded-circle" onclick="deleteData(<?php echo $user['id_user']; ?>)"><i class="fa fa-trash"></i></button>
                                                     <?php } else { ?>
-                                                        <button class="btn btn-sm btn-success btn-float rounded-circle" onclick="activate(<?php echo $user['id_user']; ?>)"><i class="fa fa-check"></i></button>
+                                                        <?php if ($user['is_active'] != 1) { ?>
+                                                            <button class="btn btn-sm btn-success btn-float rounded-circle" onclick="activate(<?php echo $user['id_user']; ?>)"><i class="fa fa-check"></i></button>
+                                                        <?php } ?>
                                                         <button class="btn btn-sm btn-danger btn-float rounded-circle" onclick="deactivate(<?php echo $user['id_user']; ?>)"><i class="fa fa-ban"></i></button>
                                                         <button class="btn btn-sm btn-warning btn-float rounded-circle" onclick="getData(<?php echo $user['id_user']; ?>)"><i class="fa fa-edit"></i></button>
                                                     <?php } ?>
