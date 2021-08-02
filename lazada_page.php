@@ -151,9 +151,9 @@ if ($_SESSION['isLogin'] == false) {
                                     <div class="col">
                                         <div class="input-group">
                                             <div class="input-group-text">
-                                                <input class="form-check-input mt-0" type="checkbox" onclick="if(this.checked == false){document.getElementById('preorder').value = 0;}" value="preorder_check" aria-label="Radio button for following text input">Preorder
+                                                <input class="form-check-input mt-0" type="checkbox" onclick="if(this.checked == false){document.getElementById('preorder').value = 0;document.getElementById('preorder').disabled = true;}else{document.getElementById('preorder').disabled = false;}" value="preorder_check" aria-label="Radio button for following text input">Preorder
                                             </div>
-                                            <input type="number" class="form-control" name="preorder" id="preorder" value="0" aria-label="Text input with radio button" placeholder="Hari">
+                                            <input type="number" class="form-control" name="preorder" id="preorder" value="0" aria-label="Text input with radio button" placeholder="Hari" disabled>
                                         </div>
                                     </div>
                                     <div class="col">
