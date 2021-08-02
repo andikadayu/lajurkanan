@@ -1,0 +1,16 @@
+{
+    "name": "cvgs/lajurkanan",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Andika Dayu",
+            "email": "dikapolk@gmail.com"
+        }
+    ],
+    "require": {
+        "fabpot/goutte": "^4.0",
+        "vlucas/phpdotenv": "^5.3",
+        "phpmailer/phpmailer": "^6.5",
+        "phpoffice/phpspreadsheet": "^1.18"
+    }
+}
