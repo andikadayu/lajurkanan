@@ -41,7 +41,7 @@ if ($_SESSION['isLogin'] == false) {
                         <div class="row">
                             <div class="col-2">
                                 <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Single Scrap</button>
-                                <!-- <button type="button" class="btn btn-md btn-success">Export</button> -->
+                                <button type="button" class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#scrapToko">Scrap Shop</button>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px;">
@@ -102,7 +102,40 @@ if ($_SESSION['isLogin'] == false) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" onclick="proccessas();" id="scBtn">Scrap Data</button>
+                        <button type="submit" class="btn btn-primary" id="scBtn">Scrap Data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-dialog-scrollable fade" id="scrapToko" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="controller/pro_lazada.php" method="POST" autocomplete="off" aria-autocomplete="none">
+                    <div class="modal-body">
+                        <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+                        <input type="hidden" id="countslinkshop" name="counts" class="form-control" onchange="addInput()" min='1' max='50' required>
+                        <label for="">Shop Link</label>
+
+                        <div class="row">
+                            <div class="col-11">
+                                <input type="text" id="shop_link" name="shoplink" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <button type="button" id="getShop" class="btn btn-sm btn-success" onclick="getShops()">Get</button>
+                            </div>
+                        </div>
+                        <div id="linksssp"></div>
+                        <span class='badge bg-danger' id="labellink">Get Shop Link First</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="scBtn1">Scrap Data</button>
                     </div>
                 </form>
             </div>
@@ -254,6 +287,36 @@ if ($_SESSION['isLogin'] == false) {
                 for (let index = 0; index < countsLink; index++) {
                     $('#linksss').append(`<div class='form-group'><label>Links item ${index+1}</label><input type='text' name='links[${index}]' class='form-control' required></div>`);
                 }
+            }
+
+            function getShops() {
+                let re = $('#shop_link').val();
+                $('#linksssp').empty();
+                $.ajax({
+                    url: 'controller/getShopLazada.php',
+                    method: "get",
+                    data: {
+                        url: re
+                    },
+                    dataType: 'json'
+                }).done(function(data) {
+                    let json = JSON.parse(data);
+                    let list = json['mods']['listItems'];
+                    let i = 0;
+                    let links;
+                    let cleanlinks;
+                    list.forEach(element => {
+                        links = element['productUrl'];
+                        cleanlinks = links.replace('//', 'https://');
+                        $('#linksssp').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${cleanlinks}' class='form-control' required></div>`);
+                        i++;
+                    });
+                    $('#countslinkshop').val(i);
+                    $('#labellink').removeClass('bg-danger');
+                    $('#labellink').addClass('bg-success');
+                    $('#labellink').text("Get Shop Product Done, Go to Scrap");
+
+                });
             }
 
             function checkMarkups(nm) {
