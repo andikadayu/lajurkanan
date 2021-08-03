@@ -77,6 +77,10 @@ $i = 4;
 $st_re = explode(",", $_POST['hapus_kata']); // pemisah kata
 
 $preorder = "Tidak";
+$gam = "";
+$items = array();
+$vid = "";
+$itemss = array();
 
 if ($_POST['preorder'] == '0') {
     $preorder = "Tidak";
@@ -99,6 +103,20 @@ while ($rs = mysqli_fetch_assoc($sql)) {
         } else {
             $harga = $row['harga'] + $_POST['nilai_markup'];
         }
+    }
+
+    //Random URL
+    if ($row['gambar1'] != "") {
+        $items = json_decode($row['gambar1'], true);
+        $gam =  $items[array_rand($items)];
+    } else {
+        $gam = "";
+    }
+    if ($row['video1'] != "") {
+        $itemss = json_decode($row['video1'], true);
+        $vid =  $itemss[array_rand($itemss)];
+    } else {
+        $vid = "";
     }
 
     $sheet->setCellValue(
@@ -139,35 +157,35 @@ while ($rs = mysqli_fetch_assoc($sql)) {
     );
     $sheet->setCellValue(
         'J' . $i,
-        $row['gambar1']
+        $gam
     );
     $sheet->setCellValue(
         'K' . $i,
-        $row['gambar1']
+        $gam
     );
     $sheet->setCellValue(
         'L' . $i,
-        $row['gambar1']
+        $gam
     );
     $sheet->setCellValue(
         'M' . $i,
-        $row['gambar1']
+        $gam
     );
     $sheet->setCellValue(
         'N' . $i,
-        $row['gambar1']
+        $gam
     );
     $sheet->setCellValue(
         'O' . $i,
-        $row['video1']
+        $vid
     );
     $sheet->setCellValue(
         'P' . $i,
-        $row['video1']
+        $vid
     );
     $sheet->setCellValue(
         'Q' . $i,
-        $row['video1']
+        $vid
     );
     $sheet->setCellValue(
         'R' . $i,

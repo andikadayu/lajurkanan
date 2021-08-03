@@ -32,7 +32,7 @@ if ($_SESSION['isLogin'] == false) {
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            Scrap Shopee
+                            Scrap Shopee <small style="font-weight: bold;">Limit 50 Request per Day</small>
                         </div>
                     </div>
                     <div class="card-body">
