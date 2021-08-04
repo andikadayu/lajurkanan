@@ -113,14 +113,14 @@ if ($_SESSION['isLogin'] == false) {
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop <small>*Maximum get Data in shop 40 (maybe random product)</small></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="controller/pro_lazada.php" method="POST" autocomplete="off" aria-autocomplete="none">
                     <div class="modal-body">
                         <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
                         <input type="hidden" id="countslinkshop" name="counts" class="form-control" onchange="addInput()" min='1' max='50' required>
-                        <label for="">Shop Link</label>
+                        <label for="">Number Shop Link</label>
 
                         <div class="row">
                             <div class="col-11">
@@ -278,6 +278,7 @@ if ($_SESSION['isLogin'] == false) {
         <script>
             $(document).ready(function() {
                 $('#datatables').DataTable();
+                alert(location.pathname);
             });
 
             function addInput() {
@@ -305,17 +306,18 @@ if ($_SESSION['isLogin'] == false) {
                     let i = 0;
                     let links;
                     let cleanlinks;
+                    let cleanlinkss;
                     list.forEach(element => {
                         links = element['productUrl'];
                         cleanlinks = links.replace('//', 'https://');
-                        $('#linksssp').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${cleanlinks}' class='form-control' required></div>`);
+                        cleanlinkss = cleanlinks.replace('products/', '');
+                        $('#linksssp').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${cleanlinkss}' class='form-control' required></div>`);
                         i++;
                     });
                     $('#countslinkshop').val(i);
                     $('#labellink').removeClass('bg-danger');
                     $('#labellink').addClass('bg-success');
                     $('#labellink').text("Get Shop Product Done, Go to Scrap");
-
                 });
             }
 

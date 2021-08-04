@@ -1,10 +1,11 @@
 <?php
 include '../config.php';
+include 'RumusHarga.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-
+$rumusHarga = new RumusHarga();
 
 $id_scrap = $_POST['id_scrap'];
 $nama_file = $_POST['nama_file'];
@@ -103,6 +104,8 @@ while ($rs = mysqli_fetch_assoc($sql)) {
         } else {
             $harga = $row['harga'] + $_POST['nilai_markup'];
         }
+    } else {
+        $harga = $rumusHarga->getHarga($row['harga'], $_POST['rumus']);
     }
 
     //Random URL
