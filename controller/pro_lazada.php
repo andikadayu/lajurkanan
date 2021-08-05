@@ -87,7 +87,6 @@
 
     $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',2,'$id','$c')");
     $ids = mysqli_insert_id($conn);
-    $curl = curl_init();
 
     $nama = NULL;
     $deskripsi = NULL;

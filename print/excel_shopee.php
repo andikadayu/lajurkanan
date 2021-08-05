@@ -82,6 +82,7 @@ $gam = "";
 $items = array();
 $vid = "";
 $itemss = array();
+$nog = 0;
 
 if ($_POST['preorder'] == '0') {
     $preorder = "Tidak";
@@ -92,131 +93,134 @@ if ($_POST['preorder'] == '0') {
 $harga = 0;
 $tambah = 0;
 //Content XLSX
-$sql = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap'");
+$sql = mysqli_query($conn, "SELECT * FROM `tb_shopee` WHERE id_scrape = '$id_scrap'");
 while ($rs = mysqli_fetch_assoc($sql)) {
     //Penghapus Kata
     $row = str_replace($st_re, " ", $rs);
     //Penghitung Rumus
-    if ($_POST['markups'] == 'metode') {
-        if ($_POST['metode_markup'] == '%') {
-            $tambah = $row['harga'] * $_POST['nilai_markup'] / 100;
-            $harga = $row['harga'] + $tambah;
+    if ($row['jumlah_stok'] >= $_POST['stok']) {
+
+        if ($_POST['markups'] == 'metode') {
+            if ($_POST['metode_markup'] == '%') {
+                $tambah = $row['harga'] * $_POST['nilai_markup'] / 100;
+                $harga = $row['harga'] + $tambah;
+            } else {
+                $harga = $row['harga'] + $_POST['nilai_markup'];
+            }
         } else {
-            $harga = $row['harga'] + $_POST['nilai_markup'];
+            $harga = $rumusHarga->getHarga($row['harga'], $_POST['rumus']);
         }
-    } else {
-        $harga = $rumusHarga->getHarga($row['harga'], $_POST['rumus']);
-    }
 
-    //Random URL
-    if ($row['gambar1'] != "") {
-        $items = json_decode($row['gambar1'], true);
-        $gam =  $items[array_rand($items)];
-    } else {
-        $gam = "";
-    }
-    if ($row['video1'] != "") {
-        $itemss = json_decode($row['video1'], true);
-        $vid =  $itemss[array_rand($itemss)];
-    } else {
-        $vid = "";
-    }
+        //Random URL
+        if ($row['gambar1'] != "") {
+            $items = json_decode($row['gambar1'], true);
+            $nog = count($items);
+        } else {
+            $gam = "";
+        }
 
-    $sheet->setCellValue(
-        'A' . $i,
-        mysqli_error($conn)
-    );
-    $sheet->setCellValue(
-        'B' . $i,
-        $_POST['nama_awal'] . " " . $row['nama_produk'] . " " . $_POST['nama_akhir']
-    );
-    $sheet->setCellValue(
-        'C' . $i,
-        $_POST['deskripsi_awal'] . " " . $row['deskripsi'] . " " . $_POST['deskripsi_akhir']
-    );
-    $sheet->setCellValue(
-        'D' . $i,
-        $_POST['kategori']
-    );
-    $sheet->setCellValue(
-        'E' . $i,
-        $_POST['berat']
-    );
-    $sheet->setCellValue(
-        'F' . $i,
-        $_POST['min_pesan']
-    );
-    $sheet->setCellValue(
-        'G' . $i,
-        $_POST['etalase']
-    );
-    $sheet->setCellValue(
-        'H' . $i,
-        $preorder
-    );
-    $sheet->setCellValue(
-        'I' . $i,
-        $row['kondisi']
-    );
-    $sheet->setCellValue(
-        'J' . $i,
-        $gam
-    );
-    $sheet->setCellValue(
-        'K' . $i,
-        $gam
-    );
-    $sheet->setCellValue(
-        'L' . $i,
-        $gam
-    );
-    $sheet->setCellValue(
-        'M' . $i,
-        $gam
-    );
-    $sheet->setCellValue(
-        'N' . $i,
-        $gam
-    );
-    $sheet->setCellValue(
-        'O' . $i,
-        $vid
-    );
-    $sheet->setCellValue(
-        'P' . $i,
-        $vid
-    );
-    $sheet->setCellValue(
-        'Q' . $i,
-        $vid
-    );
-    $sheet->setCellValue(
-        'R' . $i,
-        $row['sku_name']
-    );
-    $sheet->setCellValue(
-        'S' . $i,
-        $row['status']
-    );
-    $sheet->setCellValue(
-        'T' . $i,
-        $_POST['stok']
-    );
-    $sheet->setCellValue(
-        'U' . $i,
-        round($harga)
-    );
-    $sheet->setCellValue(
-        'V' . $i,
-        $row['asuransi']
-    );
-    $i++;
+        if ($row['video1'] != "") {
+            $vid = "";
+        } else {
+            $vid = "";
+        }
+
+        $sheet->setCellValue(
+            'A' . $i,
+            mysqli_error($conn)
+        );
+        $sheet->setCellValue(
+            'B' . $i,
+            $_POST['nama_awal'] . " " . $row['nama_produk'] . " " . $_POST['nama_akhir']
+        );
+        $sheet->setCellValue(
+            'C' . $i,
+            $_POST['deskripsi_awal'] . " " . $row['deskripsi'] . " " . $_POST['deskripsi_akhir']
+        );
+        $sheet->setCellValue(
+            'D' . $i,
+            $_POST['kategori']
+        );
+        $sheet->setCellValue(
+            'E' . $i,
+            $_POST['berat']
+        );
+        $sheet->setCellValue(
+            'F' . $i,
+            $_POST['min_pesan']
+        );
+        $sheet->setCellValue(
+            'G' . $i,
+            $_POST['etalase']
+        );
+        $sheet->setCellValue(
+            'H' . $i,
+            $preorder
+        );
+        $sheet->setCellValue(
+            'I' . $i,
+            $row['kondisi']
+        );
+        $sheet->setCellValue(
+            'J' . $i,
+            ($nog >= 1 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+        );
+        $sheet->setCellValue(
+            'K' . $i,
+            ($nog >= 2 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+        );
+        $sheet->setCellValue(
+            'L' . $i,
+            ($nog >= 3 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+        );
+        $sheet->setCellValue(
+            'M' . $i,
+            ($nog >= 4 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+        );
+        $sheet->setCellValue(
+            'N' . $i,
+            ($nog <= 5 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+        );
+        $sheet->setCellValue(
+            'O' . $i,
+            $vid
+        );
+        $sheet->setCellValue(
+            'P' . $i,
+            $vid
+        );
+        $sheet->setCellValue(
+            'Q' . $i,
+            $vid
+        );
+        $sheet->setCellValue(
+            'R' . $i,
+            $row['sku_name']
+        );
+        $sheet->setCellValue(
+            'S' . $i,
+            $row['status']
+        );
+        $sheet->setCellValue(
+            'T' . $i,
+            $row['jumlah_stok']
+        );
+        $sheet->setCellValue(
+            'U' . $i,
+            round($harga)
+        );
+        $sheet->setCellValue(
+            'V' . $i,
+            $row['asuransi']
+        );
+        $i++;
+    }
 }
 
 
 
 
-//Print Excel
+// //Print Excel
 $spreadsheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(40, 'px');
 $writer = new Xlsx($spreadsheet);
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

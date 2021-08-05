@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2021 at 04:26 AM
+-- Generation Time: Aug 05, 2021 at 06:50 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -39,19 +39,6 @@ CREATE TABLE `tb_commerce` (
 INSERT INTO `tb_commerce` (`id_commerce`, `name_commerce`) VALUES
 (1, 'Shopee'),
 (2, 'Lazada');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_detail_scrap`
---
-
-CREATE TABLE `tb_detail_scrap` (
-  `id_detail_scrap` int(11) NOT NULL,
-  `id_scrap` int(11) NOT NULL,
-  `link_scrap` text NOT NULL,
-  `detail_scrap` longtext CHARACTER SET utf32 COLLATE utf32_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -144,7 +131,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `name`, `no_telp`, `alamat`, `email`, `password`, `role`, `is_active`, `code`) VALUES
-(1, 'Lajur Kanan', '080000000', 'jl in aja dulu', 'admin@lajurkanan.com', 'f05041e14758d67e868604b522e2ef20', 'superadmin', 1, NULL);
+(1, 'Lajur Kanan Admin', '081111111', 'Alamat', 'admin@lajurkanan.com', 'f05041e14758d67e868604b522e2ef20', 'superadmin', 1, NULL);
 
 --
 -- Indexes for dumped tables
@@ -155,12 +142,6 @@ INSERT INTO `tb_user` (`id_user`, `name`, `no_telp`, `alamat`, `email`, `passwor
 --
 ALTER TABLE `tb_commerce`
   ADD PRIMARY KEY (`id_commerce`);
-
---
--- Indexes for table `tb_detail_scrap`
---
-ALTER TABLE `tb_detail_scrap`
-  ADD PRIMARY KEY (`id_detail_scrap`);
 
 --
 -- Indexes for table `tb_lazada`
@@ -198,12 +179,6 @@ ALTER TABLE `tb_commerce`
   MODIFY `id_commerce` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `tb_detail_scrap`
---
-ALTER TABLE `tb_detail_scrap`
-  MODIFY `id_detail_scrap` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `tb_lazada`
 --
 ALTER TABLE `tb_lazada`
@@ -225,7 +200,7 @@ ALTER TABLE `tb_shopee`
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
