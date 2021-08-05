@@ -13,6 +13,6 @@ Aplikasi berbasis Website untuk Scrapping E Commerce
 - rubah .env sesuai konfigurasi lokal/server
 
 ## Usage
-Demo Account__
-email   : "admin@lajurkanan.com"__
-password: "lajurkanan"__
+Demo Account <br />
+email   : "admin@lajurkanan.com" <br />
+password: "lajurkanan" <br />
