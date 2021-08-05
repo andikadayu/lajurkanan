@@ -278,7 +278,6 @@ if ($_SESSION['isLogin'] == false) {
         <script>
             $(document).ready(function() {
                 $('#datatables').DataTable();
-                alert(location.pathname);
             });
 
             function addInput() {

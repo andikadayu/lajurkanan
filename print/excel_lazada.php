@@ -82,6 +82,7 @@ $gam = "";
 $items = array();
 $vid = "";
 $itemss = array();
+$nog = 0;
 
 if ($_POST['preorder'] == '0') {
     $preorder = "Tidak";
@@ -111,13 +112,14 @@ while ($rs = mysqli_fetch_assoc($sql)) {
     //Random URL
     if ($row['gambar1'] != "") {
         $items = json_decode($row['gambar1'], true);
-        $gam =  $items[array_rand($items)];
+        $nog = count($items);
     } else {
         $gam = "";
     }
     if ($row['video1'] != "") {
-        $itemss = json_decode($row['video1'], true);
-        $vid =  $itemss[array_rand($itemss)];
+        // $itemss = json_decode($row['video1'], true);
+        // $vid =  $itemss[array_rand($itemss)];
+        $vid = "";
     } else {
         $vid = "";
     }
@@ -160,23 +162,23 @@ while ($rs = mysqli_fetch_assoc($sql)) {
     );
     $sheet->setCellValue(
         'J' . $i,
-        $gam
+        ($nog >= 1 ? $items[random_int(1, $nog)] : '')
     );
     $sheet->setCellValue(
         'K' . $i,
-        $gam
+        ($nog >= 2 ? $items[random_int(1, $nog)] : '')
     );
     $sheet->setCellValue(
         'L' . $i,
-        $gam
+        ($nog >= 3 ? $items[random_int(1, $nog)] : '')
     );
     $sheet->setCellValue(
         'M' . $i,
-        $gam
+        ($nog >= 4 ? $items[random_int(1, $nog)] : '')
     );
     $sheet->setCellValue(
         'N' . $i,
-        $gam
+        ($nog >= 5 ? $items[random_int(1, $nog)] : '')
     );
     $sheet->setCellValue(
         'O' . $i,

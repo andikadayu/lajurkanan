@@ -179,7 +179,7 @@ while ($rs = mysqli_fetch_assoc($sql)) {
         );
         $sheet->setCellValue(
             'N' . $i,
-            ($nog <= 5 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+            ($nog >= 5 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
         );
         $sheet->setCellValue(
             'O' . $i,
