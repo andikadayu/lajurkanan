@@ -11,3 +11,8 @@ Aplikasi berbasis Website untuk Scrapping E Commerce
 - insert database
 - Di Terminal/Command Promt Copy .env.example ke .env
 - rubah .env sesuai konfigurasi lokal/server
+
+## Usage
+Demo Account
+email   : admin@lajurkanan.com
+password: lajurkanan
