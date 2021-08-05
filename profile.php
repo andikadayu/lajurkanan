@@ -28,7 +28,7 @@ if ($_SESSION['isLogin'] == false) {
     <div class="container-fluid">
         <div class="row" style="margin-top: 25px;">
             <div class="d-flex justify-content-center">
-                <div class="col-5">
+                <div class="col-lg-5">
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">Profile</div>
