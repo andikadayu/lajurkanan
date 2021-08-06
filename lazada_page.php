@@ -96,13 +96,25 @@ if ($_SESSION['isLogin'] == false) {
                 <form action="controller/pro_lazada.php" method="POST" autocomplete="off" aria-autocomplete="none">
                     <div class="modal-body">
                         <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
-                        <label for="">Number Link</label>
-                        <input type="number" id="countsLink" name="counts" class="form-control" onchange="addInput()" min='1' max='50' required>
+                        <div class="form-group">
+                            <label for="">Link</label> <span class="badge bg-danger" id="all_badge">Get Link First</span>
+                            <div class="row">
+                                <div class="col-11">
+                                    <textarea name="all_link" id="all_link" rows="20" class="form-control" placeholder="Max 300 Link" required></textarea>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-success" onclick="getAllLink()">Get</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <label for="">Number Link</label> -->
+                        <!-- <input type="number" id="countsLink" name="counts" class="form-control" onchange="addInput()" min='1' max='300' placeholder="Max 300" required> -->
+                        <input type="hidden" id="countsLink" name="counts" class="form-control" min='1' max='300' placeholder="Max 300" required>
                         <div id="linksss"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="scBtn">Scrap Data</button>
+                        <button type="submit" class="btn btn-primary" disabled id="scBtn">Scrap Data</button>
                     </div>
                 </form>
             </div>
@@ -119,7 +131,7 @@ if ($_SESSION['isLogin'] == false) {
                 <form action="controller/pro_lazada.php" method="POST" autocomplete="off" aria-autocomplete="none">
                     <div class="modal-body">
                         <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
-                        <input type="hidden" id="countslinkshop" name="counts" class="form-control" onchange="addInput()" min='1' max='50' required>
+                        <input type="hidden" id="countslinkshop" name="counts" class="form-control" onchange="addInput()" min='1' placeholder="Max 300" required>
                         <label for="">Number Shop Link</label>
 
                         <div class="row">
@@ -135,7 +147,7 @@ if ($_SESSION['isLogin'] == false) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="scBtn1">Scrap Data</button>
+                        <button type="submit" class="btn btn-primary" id="scBtn1" disabled>Scrap Data</button>
                     </div>
                 </form>
             </div>
@@ -273,69 +285,94 @@ if ($_SESSION['isLogin'] == false) {
                 </form>
             </div>
         </div>
+    </div>
 
 
-        <script>
-            $(document).ready(function() {
-                $('#datatables').DataTable();
-            });
+    <script>
+        $(document).ready(function() {
+            $('#datatables').DataTable();
+        });
 
-            function addInput() {
-                let countsLink = $('#countsLink').val();
-                console.log(countsLink);
-                $('#linksss').empty();
-                for (let index = 0; index < countsLink; index++) {
-                    $('#linksss').append(`<div class='form-group'><label>Links item ${index+1}</label><input type='text' name='links[${index}]' class='form-control' required></div>`);
-                }
+        function addInput() {
+            let countsLink = $('#countsLink').val();
+            console.log(countsLink);
+            $('#linksss').empty();
+            for (let index = 0; index < countsLink; index++) {
+                $('#linksss').append(`<div class='form-group'><label>Links item ${index+1}</label><input type='text' name='links[${index}]' class='form-control' required></div>`);
             }
+        }
 
-            function getShops() {
-                let re = $('#shop_link').val();
-                $('#linksssp').empty();
-                $.ajax({
-                    url: 'controller/getShopLazada.php',
-                    method: "get",
-                    data: {
-                        url: re
-                    },
-                    dataType: 'json'
-                }).done(function(data) {
-                    let json = JSON.parse(data);
-                    let list = json['mods']['listItems'];
-                    let i = 0;
-                    let links;
-                    let cleanlinks;
-                    let cleanlinkss;
-                    list.forEach(element => {
-                        links = element['productUrl'];
-                        cleanlinks = links.replace('//', 'https://');
-                        cleanlinkss = cleanlinks.replace('products/', '');
-                        $('#linksssp').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${cleanlinkss}' class='form-control' required></div>`);
-                        i++;
-                    });
-                    $('#countslinkshop').val(i);
-                    $('#labellink').removeClass('bg-danger');
-                    $('#labellink').addClass('bg-success');
-                    $('#labellink').text("Get Shop Product Done, Go to Scrap");
+        function getShops() {
+            let re = $('#shop_link').val();
+            $('#linksssp').empty();
+            $.ajax({
+                url: 'controller/getShopLazada.php',
+                method: "get",
+                data: {
+                    url: re
+                },
+                dataType: 'json'
+            }).done(function(data) {
+                let json = JSON.parse(data);
+                let list = json['mods']['listItems'];
+                let i = 0;
+                let links;
+                let cleanlinks;
+                let cleanlinkss;
+                list.forEach(element => {
+                    links = element['productUrl'];
+                    cleanlinks = links.replace('//', 'https://');
+                    cleanlinkss = cleanlinks.replace('products/', '');
+                    $('#linksssp').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${cleanlinkss}' class='form-control' required></div>`);
+                    i++;
                 });
-            }
+                $('#countslinkshop').val(i);
+                $('#labellink').removeClass('bg-danger');
+                $('#labellink').addClass('bg-success');
+                $('#labellink').text("Get Shop Product Done, Go to Scrap");
+                $('#scBtn1').attr('disabled', false);
+            });
+        }
 
-            function checkMarkups(nm) {
-                if (nm == 'rumus') {
-                    $('#rumus').attr('disabled', false);
-                    $('#metode_markup').attr('disabled', true);
-                    $('#nilai_markup').attr('disabled', true);
-                } else {
-                    $('#rumus').attr('disabled', true);
-                    $('#metode_markup').attr('disabled', false);
-                    $('#nilai_markup').attr('disabled', false);
-                }
+        function checkMarkups(nm) {
+            if (nm == 'rumus') {
+                $('#rumus').attr('disabled', false);
+                $('#metode_markup').attr('disabled', true);
+                $('#nilai_markup').attr('disabled', true);
+            } else {
+                $('#rumus').attr('disabled', true);
+                $('#metode_markup').attr('disabled', false);
+                $('#nilai_markup').attr('disabled', false);
             }
+        }
 
-            function cetakExcel(id) {
-                $('#ex_id_scrap').val(id);
+        function cetakExcel(id) {
+            $('#ex_id_scrap').val(id);
+        }
+
+        function getAllLink() {
+            $('#linksss').empty();
+            let alllink = $('#all_link').val();
+            let link = alllink.replace(/\n/g, ",");;
+            let array_link = link.split(',');
+            let array_length = array_link.length;
+            let i = 0;
+            if (array_length <= 300) {
+                array_link.forEach(element => {
+                    $('#linksss').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${element}' class='form-control' required></div>`);
+                    i++;
+                });
+                $('#countsLink').val(array_length);
+                $('#scBtn').attr('disabled', false);
+                $('#all_badge').removeClass('bg-danger');
+                $('#all_badge').addClass('bg-success');
+                $('#all_badge').text('Success Go to Scrap');
+
+            } else {
+                alert("Maximum Allowed 300 link, Count your link is " + array_length);
             }
-        </script>
+        }
+    </script>
 
 </body>
 
