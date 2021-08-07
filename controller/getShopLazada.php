@@ -20,3 +20,5 @@ $crawler->filterXPath('//script[contains(.,"window.pageData")]')->each(function 
 });
 
 echo str_replace(';', '', $response);
+
+$conn->close();

@@ -158,6 +158,8 @@
     } else {
         echo 'error';
     }
+
+    $conn->close();
     ?>
 
 </body>

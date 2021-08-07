@@ -38,12 +38,9 @@ if ($_SESSION['isLogin'] == false) {
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-2">
-                                <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Single Scrap</button>
-                                <button type="button" class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#scrapToko">Scrap Shop</button>
-                            </div>
-                        </div>
+                        <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Single Scrap</button>
+                        <button type="button" class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#scrapToko">Scrap Shop</button>
+
                         <div class="row" style="margin-top: 10px;">
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered" id="datatables">
@@ -73,6 +70,7 @@ if ($_SESSION['isLogin'] == false) {
                                                 <td><?php echo $d['name']; ?></td>
                                                 <td>
                                                     <button class="btn btn-sm btn-success btn-float rounded-circle" onclick="cetakExcel(<?php echo $d['id_scrap']; ?>)" data-bs-toggle="modal" data-bs-target="#modalExport"><i class="fa fa-file-excel"></i></button>
+                                                    <button class="btn btn-sm btn-danger btn-float rounded-circle" onclick="deleteScrap(<?php echo $d['id_scrap']; ?>)"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -107,8 +105,6 @@ if ($_SESSION['isLogin'] == false) {
                                 </div>
                             </div>
                         </div>
-                        <!-- <label for="">Number Link</label> -->
-                        <!-- <input type="number" id="countsLink" name="counts" class="form-control" onchange="addInput()" min='1' max='300' placeholder="Max 300" required> -->
                         <input type="hidden" id="countsLink" name="counts" class="form-control" min='1' max='300' placeholder="Max 300" required>
                         <div id="linksss"></div>
                     </div>
@@ -370,6 +366,27 @@ if ($_SESSION['isLogin'] == false) {
 
             } else {
                 alert("Maximum Allowed 300 link, Count your link is " + array_length);
+            }
+        }
+
+        function deleteScrap(id) {
+            let r = confirm("Are you sure delete thhis data?");
+            if (r == true) {
+                $.ajax({
+                    url: 'controller/deleting_scrap.php',
+                    method: 'GET',
+                    data: {
+                        shop: 'lazada',
+                        id: id
+                    }
+                }).done(function(data) {
+                    if (data == 'success') {
+                        alert('success');
+                        location.reload();
+                    } else {
+                        alert('failed');
+                    }
+                })
             }
         }
     </script>

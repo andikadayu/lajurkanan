@@ -13,3 +13,5 @@ if ($sql) {
 } else {
     echo "<script> alert('Failed');location.href='../profile.php' </script>";
 }
+
+$conn->close();

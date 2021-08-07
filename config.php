@@ -18,4 +18,4 @@ $user = $_ENV['DB_USER'];
 $pass = $_ENV['DB_PASS'];
 $db = $_ENV['DB_NAME'];
 
-$conn = mysqli_connect($host, $user, $pass, $db) or die;
+$conn = mysqli_connect($host, $user, $pass, $db) or die(mysqli_connect_error());

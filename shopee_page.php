@@ -36,12 +36,8 @@ if ($_SESSION['isLogin'] == false) {
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-2">
-                                <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Single Scrap</button>
-                                <!-- <button type="button" class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#scrapToko">Scrap Shop</button> -->
-                            </div>
-                        </div>
+                        <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Single Scrap</button>
+
                         <div class="row" style="margin-top: 10px;">
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered" id="datatables">
@@ -71,6 +67,7 @@ if ($_SESSION['isLogin'] == false) {
                                                 <td><?php echo $d['name']; ?></td>
                                                 <td>
                                                     <button class="btn btn-sm btn-success btn-float rounded-circle" onclick="cetakExcel(<?php echo $d['id_scrap']; ?>)" data-bs-toggle="modal" data-bs-target="#modalExport"><i class="fa fa-file-excel"></i></button>
+                                                    <button class="btn btn-sm btn-danger btn-float rounded-circle" onclick="deleteScrap(<?php echo $d['id_scrap']; ?>)"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -105,8 +102,6 @@ if ($_SESSION['isLogin'] == false) {
                                 </div>
                             </div>
                         </div>
-                        <!-- <label for="">Number Link</label> -->
-                        <!-- <input type="number" id="countsLink" name="counts" class="form-control" onchange="addInput()" min='1' max='300' placeholder="Max 300" required> -->
                         <input type="hidden" id="countsLink" name="counts" class="form-control" min='1' max='300' placeholder="Max 300" required>
                         <div id="linksss"></div>
                     </div>
@@ -118,40 +113,6 @@ if ($_SESSION['isLogin'] == false) {
             </div>
         </div>
     </div>
-
-    <div class="modal modal-dialog-scrollable fade" id="scrapToko" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop <small>*Maximum get Data in shop 40 (maybe random product)</small></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="controller/pro_lazada.php" method="POST" autocomplete="off" aria-autocomplete="none">
-                    <div class="modal-body">
-                        <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
-                        <input type="hidden" id="countslinkshop" name="counts" class="form-control" onchange="addInput()" min='1' max='300' placeholder="Max 300" required>
-                        <label for="">Number Shop Link</label>
-
-                        <div class="row">
-                            <div class="col-11">
-                                <input type="text" id="shop_link" name="shoplink" class="form-control" required>
-                            </div>
-                            <div class="col">
-                                <button type="button" id="getShop" class="btn btn-sm btn-success" onclick="getShops()">Get</button>
-                            </div>
-                        </div>
-                        <div id="linksssp"></div>
-                        <span class='badge bg-danger' id="labellink">Get Shop Link First</span>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="scBtn1">Scrap Data</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 
     <div class="modal modal-dialog-scrollable fade" id="modalExport" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
@@ -338,6 +299,27 @@ if ($_SESSION['isLogin'] == false) {
 
             } else {
                 alert("Maximum Allowed 300 link, Count your link is " + array_length);
+            }
+        }
+
+        function deleteScrap(id) {
+            let r = confirm("Are you sure delete thhis data?");
+            if (r == true) {
+                $.ajax({
+                    url: 'controller/deleting_scrap.php',
+                    method: 'GET',
+                    data: {
+                        shop: 'shopee',
+                        id: id
+                    }
+                }).done(function(data) {
+                    if (data == 'success') {
+                        alert('success');
+                        location.reload();
+                    } else {
+                        alert('failed');
+                    }
+                })
             }
         }
     </script>
