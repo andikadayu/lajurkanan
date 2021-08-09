@@ -113,11 +113,12 @@
     $item_id;
     $video = array();
     $image = array();
+    $linkss;
 
 
     if ($sql1) {
         foreach ($_POST['links'] as $key => $values) {
-
+            $linkss = str_replace(["'", "`"], "", $values);
             $str_url = explode("/", $values);
             $origin = 'https://' . $str_url[2];
             $param = explode('-i.', $values);
@@ -145,7 +146,8 @@
             if ($err) {
                 echo "cURL Error #:" . $err;
             } else {
-                $js = json_decode($response);
+
+                $js = json_decode(str_replace("'", " ", $response));
 
                 foreach ($js->data->images as $key => $value) {
                     $image["img$key"] = $value;
@@ -157,18 +159,15 @@
                 $nama = $js->data->name;
                 $catid = $js->data->catid;
                 $deskripsi = $js->data->description;
-                if ($js->data->video_info_list != null || $js->data->video_info_list != '') {
+                if ($js->data->video_info_list != '') {
                     $video = $js->data->video_info_list;
-                    foreach ($js->data->video as $key => $value) {
-                        $video["$key"] = $value;
-                    };
                     $video1 = json_encode($video);
                 } else {
-                    $video = null;
+                    $video1 = null;
                 }
 
 
-                $sq = mysqli_query($conn, "INSERT INTO tb_shopee VALUES(NULL,'$ids','$values','$nama','$deskripsi','$catid','$berat','$min','$etalase','$preorder','$kondisi','$gambar1','$video1','$sku','$kondisi','$stok','$harga','$asuransi')");
+                $sq = mysqli_query($conn, "INSERT INTO tb_shopee VALUES(NULL,'$ids','$linkss','$nama','$deskripsi','$catid','$berat','$min','$etalase','$preorder','$kondisi','$gambar1','$video1','$sku','$kondisi','$stok','$harga','$asuransi')");
                 if ($sq) {
                 } else {
                     var_dump(mysqli_error($conn));

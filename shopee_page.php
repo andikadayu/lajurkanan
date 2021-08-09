@@ -281,7 +281,8 @@ if ($_SESSION['isLogin'] == false) {
 
         function getAllLink() {
             $('#linksss').empty();
-            let alllink = $('#all_link').val();
+            let links = $('#all_link').val();
+            let alllink = links.replace(/['"]+/g, '');
             let link = alllink.replace(/\n/g, ",");;
             let array_link = link.split(',');
             let array_length = array_link.length;

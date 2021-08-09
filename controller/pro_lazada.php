@@ -112,7 +112,7 @@
             $crawler = $client->request('GET', $value);
             $gambar = array();
             $crawler->filter('#module_product_title_1 > div > div > h1')->each(function ($node) use (&$nama) {
-                $nama = $node->text();
+                $nama = str_replace("'", '', $node->text());
             });
 
             $crawler->filter('#module_product_price_1 > div > div > span')->each(function ($node) use (&$harga) {
@@ -133,7 +133,7 @@
 
                 $js = json_decode($st);
 
-                $deskripsi = str_replace("'", '', $js->description);
+                $deskripsi = str_replace("'", ' ', $js->description);
                 $sku = $js->sku;
             });
             $crawler->filterXPath('//script[contains(.,"pdpTrackingData")]')->each(function ($node) use (&$catid) {

@@ -61,7 +61,6 @@ if ($_SESSION['isLogin'] == false) {
                                             $sql = mysqli_query($conn, "SELECT sc.tgl_scrap,user.name,sc.counts,sc.id_scrap FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=2 ORDER BY sc.tgl_scrap DESC");
                                         }
                                         $no = 1;
-
                                         while ($d = mysqli_fetch_assoc($sql)) { ?>
                                             <tr>
                                                 <td><?php echo $no++; ?></td>
