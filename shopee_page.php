@@ -37,6 +37,7 @@ if ($_SESSION['isLogin'] == false) {
                     </div>
                     <div class="card-body">
                         <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Single Scrap</button>
+                        <button type="button" class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#searchModal">Scrap with Search</button>
 
                         <div class="row" style="margin-top: 10px;">
                             <div class="table-responsive">
@@ -108,6 +109,34 @@ if ($_SESSION['isLogin'] == false) {
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" disabled id="scBtn">Scrap Data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-dialog-scrollable fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop <small>*Maximum get Data in shop 40 (maybe random product)</small></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="controller/pro_search_shopee.php" method="POST" autocomplete="off" aria-autocomplete="none">
+                    <div class="modal-body">
+                        <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>" required aria-required="true">
+                        <div class="from-group">
+                            <label for="search">Search Keyword</label>
+                            <input type="text" name="search" id="search" class="form-control" placeholder="example : flashdisk,headphone,etc.." required aria-required="true">
+                        </div>
+                        <div class="from-group">
+                            <label for="limit">Limit Search</label>
+                            <input type="number" name="limit" id="limit" class="form-control" placeholder="Max 300" min="1" max="300" required aria-required="true">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="scBtn1">Scrap Data</button>
                     </div>
                 </form>
             </div>
