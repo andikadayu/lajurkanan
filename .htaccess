@@ -1,14 +1,19 @@
 RewriteEngine On
 RewriteBase /
+RewriteCond %{HTTPS} !on
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
 
-<Files .htaccess>
-Order Allow,Deny
-Deny from all
+<Files ".htaccess">
+    Order Allow,Deny
+    Deny from all
 </Files>
 
-<Files .env>
-Order Allow,Deny
-Deny from all
+<Files ".env">
+    Order Allow,Deny
+    Deny from all
 </Files>
 
 Options All -Indexes
