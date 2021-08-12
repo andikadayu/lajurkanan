@@ -77,16 +77,20 @@
     include '../config.php';
 
     use Goutte\Client;
-
+    use Curl\Curl;
 
     $client = new Client;
+    $curl = new Curl();
+
+    $curl->disableTimeout();
 
     $id = $_POST['id_user'];
     $dates = date('Y-m-d H:i:s');
+    $shop_ids = $_POST['shop_id'];
 
-    $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',2,'$id')");
-    $ids = mysqli_insert_id($conn);
-
+    $items = array();
+    $data = array();
+    $c = 0;
     $nama = NULL;
     $deskripsi = NULL;
     $catid = 0;
@@ -97,65 +101,81 @@
     $kondisi = "Baru";
     $gambar1 = NULL;
     $video1 = NULL;
-    $sku = "";
+    $sku = NULL;
     $status = "Aktif";
     $stok = 12;
     $harga = 12000;
     $asuransi = "optional";
     $i = 0;
+    $str_url;
+    $origin;
+    $param;
+    $params;
+    $shop_id;
+    $item_id;
+    $video = array();
+    $image = array();
+    $linkss;
+
+    $sho = explode(',', $shop_ids);
+    $c = count($sho);
+
+    $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',1,'$id')");
+    $ids = mysqli_insert_id($conn);
+
 
     if ($sql1) {
-        foreach ($_POST['links'] as $key => $value) {
+        foreach ($sho as $key => $value) {
+            $curl->get("https://shopee.co.id/api/v2/search_items/?match_id=" . $value . "&order=desc&page_type=shop&limit=100");
 
-
-            $crawler = $client->request('GET', $value);
-            $gambar = array();
-            $crawler->filter('#module_product_title_1 > div > div > h1')->each(function ($node) use (&$nama) {
-                $nama = str_replace("'", '', $node->text());
-            });
-
-            $crawler->filter('#module_product_price_1 > div > div > span')->each(function ($node) use (&$harga) {
-                $harga = str_replace(['Rp', '.'], '', $node->text());
-            });
-
-            $crawler->filter('#module_item_gallery_1 > div div.next-slick.next-slick-outer.next-slick-horizontal.item-gallery-slider > div > div.next-slick-list > div.next-slick-track div:nth-child(1)')->each(function ($node) use (&$gambar) {
-                $gambar[] = $node->children()->filter('img')->eq(0)->attr('src');
-            });
-            unset($gambar[0]);
-
-            $gambar1 = json_encode($gambar);
-
-
-            $crawler->filter('body > script:nth-child(6)')->each(function ($node) use (&$deskripsi, &$sku) {
-
-                $st = $node->text();
-
-                $js = json_decode($st);
-
-                $deskripsi = str_replace("'", ' ', $js->description);
-                $sku = $js->sku;
-            });
-            $crawler->filterXPath('//script[contains(.,"pdpTrackingData")]')->each(function ($node) use (&$catid) {
-                $sts = json_encode($node->text());
-                $ste = explode(";", $sts);
-                $stes = explode(" = ", $ste[1]);
-                $stfs = json_decode(stripslashes($stes[1]));
-                $jssa = json_decode($stfs);
-                // $catid = $jssa->page->regCategoryId;
-            });
-
-            $sq = mysqli_query($conn, "INSERT INTO tb_lazada VALUES(NULL,'$ids','$value','$nama','$deskripsi','$catid','$berat','$min','$etalase','$preorder','$kondisi','$gambar1','$video1','$sku','$kondisi','$stok','$harga','$asuransi')");
-            if ($sq) {
+            if ($curl->error) {
+                echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
             } else {
-                var_dump(mysqli_error($conn));
+                $res =  $curl->response;
+                $items = $res->items;
+                foreach ($items as $key => $value) {
+                    $data[] = ["shopid" => $value->shopid, "itemid" => $value->itemid];
+                }
+
+                foreach ($data as $key => $value) {
+                    $curls = new Curl();
+                    $curls->get("https://shopee.co.id/api/v4/item/get?itemid=" . $value['itemid'] . "&shopid=" . $value['shopid']);
+                    if ($curls->error) {
+                        echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
+                    } else {
+                        $js = $curls->response;
+
+                        foreach ($js->data->images as $key => $value) {
+                            $image["img$key"] = $value;
+                        };
+                        $gambar1 = json_encode($image);
+                        $harga = substr($js->data->price_max, 0, -5);
+                        $stok = $js->data->stock;
+                        $nama = str_replace("'", "", $js->data->name);
+                        $catid = $js->data->catid;
+                        $deskripsi = str_replace("'", "", $js->data->description);
+                        if ($js->data->video_info_list != '') {
+                            $video = $js->data->video_info_list;
+                            $video1 = json_encode($video);
+                        } else {
+                            $video1 = null;
+                        }
+
+                        $linkss = "https://shopee.co.id/" . str_replace(" ", "-", $nama) . "-i." . $js->data->shopid . "." . $js->data->itemid;
+
+                        $sq = mysqli_query($conn, "INSERT INTO tb_shopee VALUES(NULL,'$ids','$linkss','$nama','$deskripsi','$catid','$berat','$min','$etalase','$preorder','$kondisi','$gambar1','$video1','$sku','$kondisi','$stok','$harga','$asuransi')");
+                        if ($sq) {
+                        } else {
+                            var_dump(mysqli_error($conn));
+                        }
+                    }
+                }
             }
             $i++;
             $perc = $i / $c * 100;
             echo "<script>
-                                $('#pr_bar').css('width','$perc%');$('#percentages').text('$perc%');if ($perc >= 100) {alert('Scrap Data Done');location.href='../lazada_page.php';}</script>";
+                            $('#pr_bar').css('width','$perc%');$('#percentages').text('$perc%');if ($perc >= 100) {alert('Scrap Data Done');location.href='../shopee_page.php';}</script>";
         }
-    } else {
-        echo 'error';
     }
 
     $conn->close();

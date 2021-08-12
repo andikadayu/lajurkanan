@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2021 at 06:50 AM
+-- Generation Time: Aug 12, 2021 at 10:09 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -77,9 +77,9 @@ CREATE TABLE `tb_scrap` (
   `id_scrap` int(11) NOT NULL,
   `tgl_scrap` datetime NOT NULL,
   `id_commerce` int(4) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `counts` int(11) NOT NULL
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
 
@@ -107,6 +107,7 @@ CREATE TABLE `tb_shopee` (
   `harga` int(11) DEFAULT NULL,
   `asuransi` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
 

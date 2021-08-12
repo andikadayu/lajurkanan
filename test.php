@@ -3,6 +3,18 @@ header("Access-Control-Allow-Origin: *");
 include 'config.php';
 
 use Goutte\Client;
+// use Curl\Curl;
+
+// $curl = new Curl();
+// $curl->setProxy("188.166.162.1", "3128");
+// $curl->get("https://shopee.co.id/api/v2/search_items/?match_id=9520539&order=desc&page_type=shop&limit=100");
+
+// if ($curl->error) {
+//     echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
+// } else {
+//     $rs = $curl->response;
+//     echo count($rs->items);
+// }
 
 
 $response;

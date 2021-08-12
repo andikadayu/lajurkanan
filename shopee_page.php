@@ -37,7 +37,8 @@ if ($_SESSION['isLogin'] == false) {
                     </div>
                     <div class="card-body">
                         <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Single Scrap</button>
-                        <button type="button" class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#searchModal">Scrap with Search</button>
+                        <button type="button" class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#shopModal">Scrap per Shop</button>
+                        <button type="button" class="btn btn-md btn-secondary" data-bs-toggle="modal" data-bs-target="#searchModal">Scrap with Search</button>
 
                         <div class="row" style="margin-top: 10px;">
                             <div class="table-responsive">
@@ -54,9 +55,9 @@ if ($_SESSION['isLogin'] == false) {
                                     <tbody>
                                         <?php
                                         if ($_SESSION['role'] == 'user') {
-                                            $sql = mysqli_query($conn, "SELECT sc.tgl_scrap,user.name,sc.counts,sc.id_scrap FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=1 AND sc.id_user='" . $_SESSION['id_user'] . "' ORDER BY sc.tgl_scrap DESC");
+                                            $sql = mysqli_query($conn, "SELECT sc.tgl_scrap,user.name,sc.id_scrap FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=1 AND sc.id_user='" . $_SESSION['id_user'] . "' ORDER BY sc.tgl_scrap DESC");
                                         } else {
-                                            $sql = mysqli_query($conn, "SELECT sc.tgl_scrap,user.name,sc.counts,sc.id_scrap FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=1 ORDER BY sc.tgl_scrap DESC");
+                                            $sql = mysqli_query($conn, "SELECT sc.tgl_scrap,user.name,sc.id_scrap FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=1 ORDER BY sc.tgl_scrap DESC");
                                         }
                                         $no = 1;
 
@@ -64,7 +65,13 @@ if ($_SESSION['isLogin'] == false) {
                                             <tr>
                                                 <td><?php echo $no++; ?></td>
                                                 <td><?php echo date_format(date_create($d['tgl_scrap']), 'D,d-M-Y H:i:s'); ?></td>
-                                                <td><?php echo $d['counts']; ?></td>
+                                                <td><?php
+
+                                                    $ss = mysqli_query($conn, "SELECT * FROM tb_shopee WHERE id_scrape = '" . $d['id_scrap'] . "'");
+
+                                                    echo mysqli_num_rows($ss);
+
+                                                    ?></td>
                                                 <td><?php echo $d['name']; ?></td>
                                                 <td>
                                                     <button class="btn btn-sm btn-success btn-float rounded-circle" onclick="cetakExcel(<?php echo $d['id_scrap']; ?>)" data-bs-toggle="modal" data-bs-target="#modalExport"><i class="fa fa-file-excel"></i></button>
@@ -96,14 +103,13 @@ if ($_SESSION['isLogin'] == false) {
                             <label for="">Link</label> <span class="badge bg-danger" id="all_badge">Get Link First</span>
                             <div class="row">
                                 <div class="col-11">
-                                    <textarea name="all_link" id="all_link" rows="20" class="form-control" placeholder="Max 300 Link" required></textarea>
+                                    <textarea name="all_link" id="all_link" rows="20" class="form-control" placeholder="Enter Product Link Separate by NewLine/Enter(↵)" required></textarea>
                                 </div>
                                 <div class="col-1">
                                     <button type="button" class="btn btn-success" onclick="getAllLink()">Get</button>
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" id="countsLink" name="counts" class="form-control" min='1' max='300' placeholder="Max 300" required>
                         <div id="linksss"></div>
                     </div>
                     <div class="modal-footer">
@@ -115,11 +121,35 @@ if ($_SESSION['isLogin'] == false) {
         </div>
     </div>
 
+    <div class="modal modal-dialog-scrollable fade" id="shopModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop <small>*Maximum get Data in shop 100 (maybe random product)</small></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="controller/pro_shop_shopee.php" method="POST" autocomplete="off" aria-autocomplete="none">
+                    <div class="modal-body">
+                        <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>" required aria-required="true">
+                        <div class="from-group">
+                            <label for="shop_id">ID Toko</label>
+                            <textarea name="shop_id" id="shop_id" rows="5" class="form-control" placeholder="place id toko seperate by comma" required aria-required="true"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="scBtn1">Scrap Data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal modal-dialog-scrollable fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop <small>*Maximum get Data in shop 40 (maybe random product)</small></h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop <small>*Maximum get Data in search 100 (maybe random product)</small></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="controller/pro_search_shopee.php" method="POST" autocomplete="off" aria-autocomplete="none">
@@ -131,7 +161,7 @@ if ($_SESSION['isLogin'] == false) {
                         </div>
                         <div class="from-group">
                             <label for="limit">Limit Search</label>
-                            <input type="number" name="limit" id="limit" class="form-control" placeholder="Max 300" min="1" max="300" required aria-required="true">
+                            <input type="number" name="limit" id="limit" class="form-control" placeholder="Limit 1-100" required aria-required="true">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -281,16 +311,6 @@ if ($_SESSION['isLogin'] == false) {
             $('#datatables').DataTable();
         });
 
-        function addInput() {
-            let countsLink = $('#countsLink').val();
-            console.log(countsLink);
-            $('#linksss').empty();
-            for (let index = 0; index < countsLink; index++) {
-                $('#linksss').append(`<div class='form-group'><label>Links item ${index+1}</label><input type='text' name='links[${index}]' class='form-control' required></div>`);
-            }
-        }
-
-
 
         function checkMarkups(nm) {
             if (nm == 'rumus') {
@@ -314,22 +334,16 @@ if ($_SESSION['isLogin'] == false) {
             let alllink = links.replace(/['"]+/g, '');
             let link = alllink.replace(/\n/g, ",");;
             let array_link = link.split(',');
-            let array_length = array_link.length;
             let i = 0;
-            if (array_length <= 300) {
-                array_link.forEach(element => {
-                    $('#linksss').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${element}' class='form-control' required></div>`);
-                    i++;
-                });
-                $('#countsLink').val(array_length);
-                $('#scBtn').attr('disabled', false);
-                $('#all_badge').removeClass('bg-danger');
-                $('#all_badge').addClass('bg-success');
-                $('#all_badge').text('Success Go to Scrap');
+            array_link.forEach(element => {
+                $('#linksss').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${element}' class='form-control' required></div>`);
+                i++;
+            });
+            $('#scBtn').attr('disabled', false);
+            $('#all_badge').removeClass('bg-danger');
+            $('#all_badge').addClass('bg-success');
+            $('#all_badge').text('Success Go to Scrap');
 
-            } else {
-                alert("Maximum Allowed 300 link, Count your link is " + array_length);
-            }
         }
 
         function deleteScrap(id) {

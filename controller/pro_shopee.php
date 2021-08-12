@@ -82,11 +82,10 @@
     $client = new Client;
     $curl = curl_init();
 
-    $c = $_POST['counts'];
     $id = $_POST['id_user'];
     $dates = date('Y-m-d H:i:s');
 
-    $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',1,'$id','$c')");
+    $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',1,'$id')");
     $ids = mysqli_insert_id($conn);
 
     $nama = NULL;

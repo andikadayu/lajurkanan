@@ -56,16 +56,19 @@ if ($_SESSION['isLogin'] == false) {
                                     <tbody>
                                         <?php
                                         if ($_SESSION['role'] == 'user') {
-                                            $sql = mysqli_query($conn, "SELECT sc.tgl_scrap,user.name,sc.counts,sc.id_scrap FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=2 AND sc.id_user='" . $_SESSION['id_user'] . "' ORDER BY sc.tgl_scrap DESC");
+                                            $sql = mysqli_query($conn, "SELECT sc.tgl_scrap,user.name,sc.id_scrap FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=2 AND sc.id_user='" . $_SESSION['id_user'] . "' ORDER BY sc.tgl_scrap DESC");
                                         } else {
-                                            $sql = mysqli_query($conn, "SELECT sc.tgl_scrap,user.name,sc.counts,sc.id_scrap FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=2 ORDER BY sc.tgl_scrap DESC");
+                                            $sql = mysqli_query($conn, "SELECT sc.tgl_scrap,user.name,sc.id_scrap FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=2 ORDER BY sc.tgl_scrap DESC");
                                         }
                                         $no = 1;
                                         while ($d = mysqli_fetch_assoc($sql)) { ?>
                                             <tr>
                                                 <td><?php echo $no++; ?></td>
                                                 <td><?php echo date_format(date_create($d['tgl_scrap']), 'D,d-M-Y H:i:s'); ?></td>
-                                                <td><?php echo $d['counts']; ?></td>
+                                                <td><?php
+                                                    $ss = mysqli_query($conn, "SELECT * FROM tb_lazada WHERE id_scrape = '" . $d['id_scrap'] . "'");
+
+                                                    echo mysqli_num_rows($ss); ?></td>
                                                 <td><?php echo $d['name']; ?></td>
                                                 <td>
                                                     <button class="btn btn-sm btn-success btn-float rounded-circle" onclick="cetakExcel(<?php echo $d['id_scrap']; ?>)" data-bs-toggle="modal" data-bs-target="#modalExport"><i class="fa fa-file-excel"></i></button>
@@ -97,14 +100,13 @@ if ($_SESSION['isLogin'] == false) {
                             <label for="">Link</label> <span class="badge bg-danger" id="all_badge">Get Link First</span>
                             <div class="row">
                                 <div class="col-11">
-                                    <textarea name="all_link" id="all_link" rows="20" class="form-control" placeholder="Max 300 Link" required></textarea>
+                                    <textarea name="all_link" id="all_link" rows="20" class="form-control" placeholder="Enter Product Link Separate by NewLine/Enter(↵)" required></textarea>
                                 </div>
                                 <div class="col-1">
                                     <button type="button" class="btn btn-success" onclick="getAllLink()">Get</button>
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" id="countsLink" name="counts" class="form-control" min='1' max='300' placeholder="Max 300" required>
                         <div id="linksss"></div>
                     </div>
                     <div class="modal-footer">
@@ -126,7 +128,6 @@ if ($_SESSION['isLogin'] == false) {
                 <form action="controller/pro_lazada.php" method="POST" autocomplete="off" aria-autocomplete="none">
                     <div class="modal-body">
                         <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
-                        <input type="hidden" id="countslinkshop" name="counts" class="form-control" onchange="addInput()" min='1' placeholder="Max 300" required>
                         <label for="">Number Shop Link</label>
 
                         <div class="row">
@@ -288,15 +289,6 @@ if ($_SESSION['isLogin'] == false) {
             $('#datatables').DataTable();
         });
 
-        function addInput() {
-            let countsLink = $('#countsLink').val();
-            console.log(countsLink);
-            $('#linksss').empty();
-            for (let index = 0; index < countsLink; index++) {
-                $('#linksss').append(`<div class='form-group'><label>Links item ${index+1}</label><input type='text' name='links[${index}]' class='form-control' required></div>`);
-            }
-        }
-
         function getShops() {
             let re = $('#shop_link').val();
             $('#linksssp').empty();
@@ -321,7 +313,6 @@ if ($_SESSION['isLogin'] == false) {
                     $('#linksssp').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${cleanlinkss}' class='form-control' required></div>`);
                     i++;
                 });
-                $('#countslinkshop').val(i);
                 $('#labellink').removeClass('bg-danger');
                 $('#labellink').addClass('bg-success');
                 $('#labellink').text("Get Shop Product Done, Go to Scrap");
@@ -352,20 +343,15 @@ if ($_SESSION['isLogin'] == false) {
             let array_link = link.split(',');
             let array_length = array_link.length;
             let i = 0;
-            if (array_length <= 300) {
-                array_link.forEach(element => {
-                    $('#linksss').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${element}' class='form-control' required></div>`);
-                    i++;
-                });
-                $('#countsLink').val(array_length);
-                $('#scBtn').attr('disabled', false);
-                $('#all_badge').removeClass('bg-danger');
-                $('#all_badge').addClass('bg-success');
-                $('#all_badge').text('Success Go to Scrap');
+            array_link.forEach(element => {
+                $('#linksss').append(`<div class='form-group'><input type='hidden' name='links[${i}]' value='${element}' class='form-control' required></div>`);
+                i++;
+            });
+            $('#scBtn').attr('disabled', false);
+            $('#all_badge').removeClass('bg-danger');
+            $('#all_badge').addClass('bg-success');
+            $('#all_badge').text('Success Go to Scrap');
 
-            } else {
-                alert("Maximum Allowed 300 link, Count your link is " + array_length);
-            }
         }
 
         function deleteScrap(id) {

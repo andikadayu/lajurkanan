@@ -28,13 +28,13 @@ if ($_SESSION['isLogin'] == false) {
     <div class="container-fluid">
         <div class="row" style="margin-top: 25px;">
             <div class="col-12">
-                <div class="card" style="background-color: #EAEAEA; height: 30vh;">
+                <div class="card" style="background-color: #EAEAEA; padding-top: 10%; padding-bottom: 10%;">
                     <div class="card-body">
                         <div class="row">
-                            <div class="d-flex justify-content-center" style="margin-top: 25px;">
+                            <div class="d-flex justify-content-center">
                                 <div>
                                     <h2>Selamat Datang <?php echo  $_SESSION['name']; ?></h2>
-                                    <h4>powered by Lajur Kanan Official</h4>
+                                    <h3>powered by Lajur Kanan Official</h3>
                                 </div>
                             </div>
                         </div>

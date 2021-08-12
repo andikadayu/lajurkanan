@@ -126,9 +126,8 @@
         foreach ($items as $key => $value) {
             $data[] = ["shopid" => $value->shopid, "itemid" => $value->itemid];
         }
-        $c = count($data);
 
-        $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',1,'$id','$c')");
+        $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',1,'$id')");
         $ids = mysqli_insert_id($conn);
         if ($sql1) {
             foreach ($data as $key => $value) {
