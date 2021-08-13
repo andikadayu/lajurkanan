@@ -175,26 +175,49 @@ class ExcelCreate
                 'I' . $i,
                 $row['kondisi']
             );
-            $this->sheet->setCellValue(
-                'J' . $i,
-                ($nog >= 1 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
-            );
-            $this->sheet->setCellValue(
-                'K' . $i,
-                ($nog >= 2 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
-            );
-            $this->sheet->setCellValue(
-                'L' . $i,
-                ($nog >= 3 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
-            );
-            $this->sheet->setCellValue(
-                'M' . $i,
-                ($nog >= 4 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
-            );
-            $this->sheet->setCellValue(
-                'N' . $i,
-                ($nog >= 5 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
-            );
+            if ($shop == 'shopee') {
+                $this->sheet->setCellValue(
+                    'J' . $i,
+                    ($nog >= 1 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                );
+                $this->sheet->setCellValue(
+                    'K' . $i,
+                    ($nog >= 2 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                );
+                $this->sheet->setCellValue(
+                    'L' . $i,
+                    ($nog >= 3 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                );
+                $this->sheet->setCellValue(
+                    'M' . $i,
+                    ($nog >= 4 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                );
+                $this->sheet->setCellValue(
+                    'N' . $i,
+                    ($nog >= 5 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                );
+            } else {
+                $this->sheet->setCellValue(
+                    'J' . $i,
+                    ($nog >= 1 ? $items[random_int(1, $nog)] : '')
+                );
+                $this->sheet->setCellValue(
+                    'K' . $i,
+                    ($nog >= 2 ? $items[random_int(1, $nog)] : '')
+                );
+                $this->sheet->setCellValue(
+                    'L' . $i,
+                    ($nog >= 3 ? $items[random_int(1, $nog)] : '')
+                );
+                $this->sheet->setCellValue(
+                    'M' . $i,
+                    ($nog >= 4 ? $items[random_int(1, $nog)] : '')
+                );
+                $this->sheet->setCellValue(
+                    'N' . $i,
+                    ($nog >= 5 ? $items[random_int(1, $nog)] : '')
+                );
+            }
             $this->sheet->setCellValue(
                 'O' . $i,
                 $vid

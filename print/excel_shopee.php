@@ -20,8 +20,6 @@ if (!empty($_POST['rumus'])) {
 
 $spreadsheet;
 $sheet;
-$writer;
-$isDone = false;
 for ($f = 0; $f < $counts; $f++) {
     if ($f % 300 == 1) {
         $sq = mysqli_query($conn, "SELECT * FROM `tb_shopee` WHERE id_scrape = '$id_scrap' AND jumlah_stok >= " . $_POST['stok'] . " LIMIT 300 OFFSET " . $f);

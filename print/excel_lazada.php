@@ -1,14 +1,20 @@
 <?php
 include '../config.php';
-include 'RumusHarga.php';
 include 'ExcelCreate.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$rumusHarga = new RumusHarga();
 $id_scrap = $_POST['id_scrap'];
 $nama_file = $_POST['nama_file'];
+
+$rumus = "";
+if (!empty($_POST['rumus'])) {
+    $rumus = $_POST['rumus'];
+}
+
+$spreadsheet;
+$sheet;
 
 $sql = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap'");
 $counts = mysqli_num_rows($sql);

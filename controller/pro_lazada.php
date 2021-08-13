@@ -84,6 +84,8 @@
     $id = $_POST['id_user'];
     $dates = date('Y-m-d H:i:s');
 
+    $c = count($_POST['links']);
+
     $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',2,'$id')");
     $ids = mysqli_insert_id($conn);
 
