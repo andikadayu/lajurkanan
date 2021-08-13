@@ -3,19 +3,6 @@ header("Access-Control-Allow-Origin: *");
 include 'config.php';
 
 use Goutte\Client;
-// use Curl\Curl;
-
-// $curl = new Curl();
-// $curl->setProxy("188.166.162.1", "3128");
-// $curl->get("https://shopee.co.id/api/v2/search_items/?match_id=9520539&order=desc&page_type=shop&limit=100");
-
-// if ($curl->error) {
-//     echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
-// } else {
-//     $rs = $curl->response;
-//     echo count($rs->items);
-// }
-
 
 $response;
 $client = new Client;
@@ -25,14 +12,3 @@ $crawler = $client->request('GET', $url);
 $gambar = array();
 
 echo $crawler->filter('html')->html();
-
-// $crawler->filter('body > script:nth-child(6)')->each(function ($node) use (&$deskripsi, &$sku) {
-
-//     $st = $node->text();
-
-//     $js = json_decode($st);
-
-//     echo $deskripsi = str_replace("'", ' ', $js->description);
-//     $sku = $js->sku;
-// });
-// echo $crawler->filterXPath('//script[contains(.,"pdpTrackingData")]')->html();
