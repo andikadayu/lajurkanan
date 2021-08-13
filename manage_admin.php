@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Management User Register">
     <title>Lajur Kanan Official</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/datatable/DataTables-1.10.25/css/dataTables.bootstrap5.min.css">
@@ -72,14 +73,14 @@ if ($_SESSION['isLogin'] == false) {
                                                     }  ?></td>
                                                 <td>
                                                     <?php if ($user['role'] == 'superadmin') { ?>
-                                                        <button class="btn btn-sm btn-warning btn-float rounded-circle" onclick="getData(<?php echo $user['id_user']; ?>)"><i class="fa fa-edit"></i></button>
-                                                        <button class="btn btn-sm btn-danger btn-float rounded-circle" onclick="deleteData(<?php echo $user['id_user']; ?>)"><i class="fa fa-trash"></i></button>
+                                                        <button class="btn btn-sm btn-warning btn-float rounded-circle" aria-label="get" onclick="getData(<?php echo $user['id_user']; ?>)"><i class="fa fa-edit"></i></button>
+                                                        <button class="btn btn-sm btn-danger btn-float rounded-circle" aria-label="delete" onclick="deleteData(<?php echo $user['id_user']; ?>)"><i class="fa fa-trash"></i></button>
                                                     <?php } else { ?>
                                                         <?php if ($user['is_active'] != 1) { ?>
-                                                            <button class="btn btn-sm btn-success btn-float rounded-circle" onclick="activate(<?php echo $user['id_user']; ?>)"><i class="fa fa-check"></i></button>
+                                                            <button class="btn btn-sm btn-success btn-float rounded-circle" aria-label="activate" onclick="activate(<?php echo $user['id_user']; ?>)"><i class="fa fa-check"></i></button>
                                                         <?php } ?>
-                                                        <button class="btn btn-sm btn-danger btn-float rounded-circle" onclick="deactivate(<?php echo $user['id_user']; ?>)"><i class="fa fa-ban"></i></button>
-                                                        <button class="btn btn-sm btn-warning btn-float rounded-circle" onclick="getData(<?php echo $user['id_user']; ?>)"><i class="fa fa-edit"></i></button>
+                                                        <button class="btn btn-sm btn-danger btn-float rounded-circle" aria-label="deactivate" onclick="deactivate(<?php echo $user['id_user']; ?>)"><i class="fa fa-ban"></i></button>
+                                                        <button class="btn btn-sm btn-warning btn-float rounded-circle" aria-label="get" onclick="getData(<?php echo $user['id_user']; ?>)"><i class="fa fa-edit"></i></button>
                                                     <?php } ?>
                                                 </td>
                                             </tr>

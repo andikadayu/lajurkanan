@@ -2,6 +2,9 @@
 //Load Composer's autoloader
 require  __DIR__ . '/vendor/autoload.php';
 
+ini_set('max_execution_time', '3600');
+set_time_limit(3600);
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 $dotenv->required('EMAIL_USERNAME')->notEmpty();

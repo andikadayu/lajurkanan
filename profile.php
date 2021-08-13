@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Change Profile Information">
     <title>Lajur Kanan Official</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/datatable/DataTables-1.10.25/css/dataTables.bootstrap5.min.css">
@@ -41,49 +42,49 @@ if ($_SESSION['isLogin'] == false) {
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-3">
-                                            <label for="">Name</label>
+                                            <label for="name">Name</label>
                                         </div>
                                         <div class="col-9">
-                                            <input type="text" name="name" value="<?php echo $data['name']; ?>" class="form-control" required>
+                                            <input type="text" id="name" name="name" value="<?php echo $data['name']; ?>" class="form-control" aria-required="true" required>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 10px;">
                                         <div class="col-3">
-                                            <label for="">Email</label>
+                                            <label for="email">Email</label>
                                         </div>
                                         <div class="col-9">
-                                            <input type="email" name="email" value="<?php echo $data['email']; ?>" class="form-control" readonly required>
+                                            <input type="email" id="email" name="email" value="<?php echo $data['email']; ?>" class="form-control" aria-required="true" readonly required>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 10px;">
                                         <div class="col-3">
-                                            <label for="">No Telp</label>
+                                            <label for="no_telp">No Telp</label>
                                         </div>
                                         <div class="col-9">
-                                            <input type="number" name="no_telp" value="<?php echo $data['no_telp']; ?>" class="form-control" required>
+                                            <input type="number" id="no_telp" name="no_telp" value="<?php echo $data['no_telp']; ?>" class="form-control" aria-required="true" required>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 10px;">
                                         <div class="col-3">
-                                            <label for="">Alamat</label>
+                                            <label for="alamat">Alamat</label>
                                         </div>
                                         <div class="col-9">
-                                            <textarea name="alamat" id="alamat" cols="3" rows="3" class="form-control" required><?php echo $data['alamat']; ?></textarea>
+                                            <textarea name="alamat" id="alamat" cols="3" rows="3" class="form-control" aria-required="true" required><?php echo $data['alamat']; ?></textarea>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 10px;">
                                         <div class="col-3">
-                                            <label for="">Password</label>
+                                            <label for="password">Password</label>
                                         </div>
                                         <div class="col-9">
-                                            <input type="password" name="password" class="form-control" required>
+                                            <input type="password" id="password" name="password" class="form-control" aria-required="true" required>
                                         </div>
                                         <small>*Retype your password if you don't want to change</small>
                                     </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-end">
-                                        <input type="submit" class="btn btn-success" value="Update">
+                                        <input type="submit" class="btn btn-success" aria-label="Update" value="Update">
                                     </div>
                                 </div>
                             </form>

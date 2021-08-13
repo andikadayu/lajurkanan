@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Scrap Shopee">
     <title>Lajur Kanan Official</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/datatable/DataTables-1.10.25/css/dataTables.bootstrap5.min.css">
@@ -74,8 +75,8 @@ if ($_SESSION['isLogin'] == false) {
                                                     ?></td>
                                                 <td><?php echo $d['name']; ?></td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-success btn-float rounded-circle" onclick="cetakExcel(<?php echo $d['id_scrap']; ?>)" data-bs-toggle="modal" data-bs-target="#modalExport"><i class="fa fa-file-excel"></i></button>
-                                                    <button class="btn btn-sm btn-danger btn-float rounded-circle" onclick="deleteScrap(<?php echo $d['id_scrap']; ?>)"><i class="fa fa-trash"></i></button>
+                                                    <button type="button" aria-label="excel" class="btn btn-sm btn-success btn-float rounded-circle" id="btnexc<?php echo $no; ?>" aria-hidden="false" onclick="cetakExcel(<?php echo $d['id_scrap']; ?>)" data-bs-toggle="modal" data-bs-target="#modalExport"><i class="fa fa-file-excel"></i></button>
+                                                    <button type="button" aria-label="delete" class="btn btn-sm btn-danger btn-float rounded-circle" id="btndel<?php echo $no; ?>" aria-hidden="false" onclick="deleteScrap(<?php echo $d['id_scrap']; ?>)"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -89,11 +90,11 @@ if ($_SESSION['isLogin'] == false) {
         </div>
     </div>
 
-    <div class="modal modal-dialog-scrollable fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal modal-dialog-scrollable fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Item</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel1">Scrap per Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="controller/pro_shopee.php" method="POST" autocomplete="off" aria-autocomplete="none">
@@ -121,11 +122,11 @@ if ($_SESSION['isLogin'] == false) {
         </div>
     </div>
 
-    <div class="modal modal-dialog-scrollable fade" id="shopModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal modal-dialog-scrollable fade" id="shopModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop <small>*Maximum get Data in shop 100 (maybe random product)</small></h5>
+                    <h5 class="modal-title" id="staticBackdropLabel2">Scrap per Shop <small>*Maximum get Data in shop 100 (maybe random product)</small></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="controller/pro_shop_shopee.php" method="POST" autocomplete="off" aria-autocomplete="none">
@@ -145,11 +146,11 @@ if ($_SESSION['isLogin'] == false) {
         </div>
     </div>
 
-    <div class="modal modal-dialog-scrollable fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal modal-dialog-scrollable fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Scrap per Shop <small>*Maximum get Data in search 100 (maybe random product)</small></h5>
+                    <h5 class="modal-title" id="staticBackdropLabel3">Scrap per Shop <small>*Maximum get Data in search 100 (maybe random product)</small></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="controller/pro_search_shopee.php" method="POST" autocomplete="off" aria-autocomplete="none">
@@ -173,11 +174,11 @@ if ($_SESSION['isLogin'] == false) {
         </div>
     </div>
 
-    <div class="modal modal-dialog-scrollable fade" id="modalExport" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal modal-dialog-scrollable fade" id="modalExport" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel4" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Export XLSX</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel4">Export XLSX</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="print/excel_shopee.php" method="POST" autocomplete="off" aria-autocomplete="none">
@@ -287,7 +288,7 @@ if ($_SESSION['isLogin'] == false) {
                                         <div class="col">
                                             <div class="input-group">
                                                 <span class="input-group-text" id="inputGroup-sizing-default">Save As</span>
-                                                <input type="text" class="form-control" name="nama_file" aria-label="Sizing example input" required aria-describedby="inputGroup-sizing-default" placeholder="Nama Toko">
+                                                <input type="text" class="form-control" name="nama_file" aria-label="Sizing example input" required aria-describedby="inputGroup-sizing-default" placeholder="Nama Toko (Min 3 letter)">
                                             </div>
                                         </div>
                                     </div>
