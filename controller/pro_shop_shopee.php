@@ -122,11 +122,12 @@
 
     $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',1,'$id')");
     $ids = mysqli_insert_id($conn);
-
-
+    $versionshop = 4;
+    $versionitem = 4;
     if ($sql1) {
         foreach ($sho as $key => $value) {
-            $curl->get("https://shopee.co.id/api/v2/search_items/?match_id=" . $value . "&order=desc&page_type=shop&limit=100");
+            $curl->get("https://shopee.co.id/api/v2/search_items/?match_id=" . $value . "&order=desc&page_type=shop&limit=100&version=" . $versionshop);
+            $versionshop++;
 
             if ($curl->error) {
                 echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
@@ -139,7 +140,8 @@
 
                 foreach ($data as $key => $value) {
                     $curls = new Curl();
-                    $curls->get("https://shopee.co.id/api/v4/item/get?itemid=" . $value['itemid'] . "&shopid=" . $value['shopid']);
+                    $curls->get("https://shopee.co.id/api/v4/item/get?itemid=" . $value['itemid'] . "&shopid=" . $value['shopid'] . "&version=" . $versionitem);
+                    $versionitem++;
                     if ($curls->error) {
                         echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
                     } else {

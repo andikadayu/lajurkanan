@@ -76,11 +76,11 @@
     <?php
     include '../config.php';
 
-    use Goutte\Client;
+
+    use Curl\Curl;
 
 
-    $client = new Client;
-    $curl = curl_init();
+    $curl = new Curl();
 
     $id = $_POST['id_user'];
     $dates = date('Y-m-d H:i:s');
@@ -115,7 +115,7 @@
     $video = array();
     $image = array();
     $linkss;
-
+    $version = 4;
 
     if ($sql1) {
         foreach ($_POST['links'] as $key => $values) {
@@ -127,39 +127,22 @@
             $shop_id = $params[0];
             $item_id = $params[1];
 
-
-            curl_setopt_array($curl, [
-                CURLOPT_URL => $origin . "/api/v4/item/get?itemid=" . $item_id . "&shopid=" . $shop_id,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-            ]);
-
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-
-            curl_close($curl);
-
-            if ($err) {
-                echo "cURL Error #:" . $err;
+            $curl->get($origin . "/api/v4/item/get?itemid=" . $item_id . "&shopid=" . $shop_id . "&version=" . $version);
+            $version++;
+            if ($curls->error) {
+                echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
             } else {
-
-                $js = json_decode(str_replace("'", " ", $response));
+                $js = $curls->response;
 
                 foreach ($js->data->images as $key => $value) {
                     $image["img$key"] = $value;
                 };
                 $gambar1 = json_encode($image);
-
                 $harga = substr($js->data->price_max, 0, -5);
                 $stok = $js->data->stock;
-                $nama = $js->data->name;
+                $nama = str_replace("'", "", $js->data->name);
                 $catid = $js->data->catid;
-                $deskripsi = $js->data->description;
+                $deskripsi = str_replace("'", "", $js->data->description);
                 if ($js->data->video_info_list != '') {
                     $video = $js->data->video_info_list;
                     $video1 = json_encode($video);
@@ -173,8 +156,11 @@
                 } else {
                     var_dump(mysqli_error($conn));
                 }
+                if ($sq) {
+                } else {
+                    var_dump(mysqli_error($conn));
+                }
             }
-
 
             $i++;
             $perc = $i / $c * 100;
