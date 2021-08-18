@@ -14,7 +14,7 @@ $dotenv->required('DB_HOST')->notEmpty();
 $dotenv->required('DB_USER')->notEmpty();
 $dotenv->required('DB_NAME')->notEmpty();
 
-date_default_timezone_set('Asia/Jakarta');
+date_default_timezone_set('Asia/Jakarta'); // Change Time Zone
 
 $host = $_ENV['DB_HOST'];
 $user = $_ENV['DB_USER'];
