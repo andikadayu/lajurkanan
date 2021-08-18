@@ -8,11 +8,8 @@
     <meta name="description" content="Home Lajur Kanan">
     <title>Lajur Kanan Official</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/datatable/DataTables-1.10.25/css/dataTables.bootstrap5.min.css">
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/datatable/datatables.min.js"></script>
-    <script src="assets/datatable/DataTables-1.10.25/js/dataTables.bootstrap5.min.js"></script>
 </head>
 <?php
 include 'config.php';

@@ -8,27 +8,8 @@
     <meta name="description" content="Login Page of Website">
     <title>Lajur Kanan Official</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.min.css">
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #17a2b8;
-            height: 100vh;
-        }
-
-        #login .container #login-row #login-column #login-box {
-            margin-top: 25vh;
-            max-width: 600px;
-            height: auto;
-            border: 1px solid #9C9C9C;
-            background-color: #EAEAEA;
-        }
-
-        #login .container #login-row #login-column #login-box #login-form {
-            padding: 20px;
-        }
-    </style>
 </head>
 <?php
 include 'config.php';
