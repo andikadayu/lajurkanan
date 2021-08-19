@@ -112,13 +112,6 @@
 
             $crawler = $client->request('GET', $value);
             $gambar = array();
-            $crawler->filter('#module_product_title_1 > div > div > h1')->each(function ($node) use (&$nama) {
-                $nama = str_replace("'", '', $node->text());
-            });
-
-            $crawler->filter('#module_product_price_1 > div > div > span')->each(function ($node) use (&$harga) {
-                $harga = str_replace(['Rp', '.'], '', $node->text());
-            });
 
             $crawler->filter('#module_item_gallery_1 > div div.next-slick.next-slick-outer.next-slick-horizontal.item-gallery-slider > div > div.next-slick-list > div.next-slick-track div:nth-child(1)')->each(function ($node) use (&$gambar) {
                 $gambar[] = $node->children()->filter('img')->eq(0)->attr('src');
@@ -127,22 +120,24 @@
 
             $gambar1 = json_encode($gambar);
 
-
-            $crawler->filter('body > script:nth-child(6)')->each(function ($node) use (&$deskripsi, &$sku) {
+            $crawler->filter('body > script:nth-child(6)')->each(function ($node) use (&$deskripsi, &$sku, &$nama, &$harga) {
 
                 $st = $node->text();
-
                 $js = json_decode($st);
 
+                $nama = str_replace("'", " ", $js->name);
+                $harga = $js->offers->lowPrice;
                 $deskripsi = str_replace("'", ' ', $js->description);
                 $sku = $js->sku;
             });
+
             $crawler->filterXPath('//script[contains(.,"pdpTrackingData")]')->each(function ($node) use (&$catid) {
                 $sts = json_encode($node->text());
                 $ste = explode(";", $sts);
                 $stes = explode(" = ", $ste[1]);
-                $stfs = json_decode(stripslashes($stes[1]));
-                $jssa = json_decode($stfs);
+                $stfs = $stes[1];
+                $jsfa =  str_replace(['"{', '}"'], ["{", "}"], stripslashes(stripslashes($stfs)));
+                $jssa = json_decode($jsfa);
                 $catid = $jssa->page->regCategoryId;
             });
 

@@ -22,6 +22,7 @@ class ExcelCreate
     public $vidurl = "Tambahkan video untuk menjelaskan spesifikasi dan cara menggunakan produk yang kamu jual.
                 Hanya boleh URL dari Youtube";
 
+
     public function __construct($sheet, Spreadsheet $spreadsheet)
     {
         $this->sheet = $sheet;

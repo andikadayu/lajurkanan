@@ -12,6 +12,15 @@ $rumus = "";
 if (!empty($_POST['rumus'])) {
     $rumus = $_POST['rumus'];
 }
+$metode = "";
+$nilai = "";
+if (!empty($_POST['metode_markup']) && !empty($_POST['nilai_markup'])) {
+    $metode = $_POST['metode_markup'];
+    $nilai = $_POST['nilai_markup'];
+}
+
+$dates = date_create(date('2007-09-16 07:00:00'));
+$date = date_timestamp_get($dates);
 
 $spreadsheet;
 $sheet;
@@ -23,7 +32,13 @@ for ($f = 0; $f < $counts; $f++) {
         $sq = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap' LIMIT 300 OFFSET " . $f);
 
         $spreadsheet = new Spreadsheet();
+        $spreadsheet->getProperties()
+            ->setTitle("")
+            ->setCreator("xuri")
+            ->setCreated($date);
+
         $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle("ISI Template Impor Produk");
         $excel = new ExcelCreate($sheet, $spreadsheet);
 
         $excel->create_excel(
@@ -34,8 +49,8 @@ for ($f = 0; $f < $counts; $f++) {
             $_POST['preorder'],
             $_POST['stok'],
             $_POST['markups'],
-            $_POST['metode_markup'],
-            $_POST['nilai_markup'],
+            $metode,
+            $nilai,
             $rumus,
             $_POST['nama_awal'],
             $_POST['nama_akhir'],
