@@ -15,12 +15,14 @@ $gambar = array();
 echo $crawler->filter('html')->html();
 
 
-// $crawler->filter('body > script:nth-child(6)')->each(function ($node) use (&$deskripsi, &$sku) {
+// $crawler->filter('body > script:nth-child(6)')->each(function ($node) use (&$deskripsi, &$sku, &$name, &$harga) {
 
 //     $st = $node->text();
-
 //     $js = json_decode($st);
-
+//     echo $name = str_replace("'", " ", $js->name);
+//     echo "<br>";
+//     echo $harga = $js->offers->lowPrice;
+//     echo "<br>";
 //     echo $deskripsi = str_replace("'", ' ', $js->description);
 //     echo "<br>";
 //     echo $sku = $js->sku;
@@ -31,7 +33,8 @@ echo $crawler->filter('html')->html();
 //     $sts = json_encode($node->text());
 //     $ste = explode(";", $sts);
 //     $stes = explode(" = ", $ste[1]);
-//     $stfs = json_decode(stripslashes($stes[1]));
-//     $jssa = json_decode($stfs);
+//     $stfs = $stes[1];
+//     $jsfa =  str_replace(['"{', '}"'], ["{", "}"], stripslashes(stripslashes($stfs)));
+//     $jssa = json_decode($jsfa);
 //     echo $catid = $jssa->page->regCategoryId;
 // });
