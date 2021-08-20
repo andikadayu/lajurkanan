@@ -141,7 +141,7 @@
                 $catid = $jssa->page->regCategoryId;
             });
 
-            $sq = mysqli_query($conn, "INSERT INTO tb_lazada VALUES(NULL,'$ids','$value','$nama','$deskripsi','$catid','$berat','$min','$etalase','$preorder','$kondisi','$gambar1','$video1','$sku','$kondisi','$stok','$harga','$asuransi')");
+            $sq = mysqli_query($conn, "INSERT INTO tb_lazada VALUES(NULL,'$ids','$value','$nama','$deskripsi','$catid','$berat','$min','$etalase','$preorder','$kondisi','$gambar1','$video1','$sku','$status','$stok','$harga','$asuransi')");
             if ($sq) {
             } else {
                 var_dump(mysqli_error($conn));
