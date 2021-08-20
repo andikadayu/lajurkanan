@@ -30,66 +30,8 @@ class ExcelCreate
         $this->spreadsheet = $spreadsheet;
     }
 
-    public function create_header()
-    {
-        // Line 1
-        $this->sheet->setCellValue('B1', 'Informasi Produk');
-        $this->sheet->mergeCells('B1:Q1');
-        $this->sheet->setCellValue('R1', 'Informasi SKU');
-        $this->sheet->mergeCells('R1:V1');
-
-        // Line 2
-        $this->sheet->setCellValue('A2', 'Error Message');
-        $this->sheet->setCellValue('B2', 'Nama Produk*');
-        $this->sheet->setCellValue('C2', 'Deskripsi Produk');
-        $this->sheet->setCellValue('D2', 'Kategori Kode*');
-        $this->sheet->setCellValue('E2', 'Berat* (Gram)');
-        $this->sheet->setCellValue('F2', 'Minimum Pemesanan*');
-        $this->sheet->setCellValue('G2', 'Nomor Etalase');
-        $this->sheet->setCellValue('H2', 'Waktu Proses Preorder');
-        $this->sheet->setCellValue('I2', 'Kondisi*');
-        $this->sheet->setCellValue('J2', 'Gambar 1*');
-        $this->sheet->setCellValue('K2', 'Gambar 2');
-        $this->sheet->setCellValue('L2', 'Gambar 3');
-        $this->sheet->setCellValue('M2', 'Gambar 4');
-        $this->sheet->setCellValue('N2', 'Gambar 5');
-        $this->sheet->setCellValue('O2', 'URL Video Produk 1');
-        $this->sheet->setCellValue('P2', 'URL Video Produk 2');
-        $this->sheet->setCellValue('Q2', 'URL Video Produk 3');
-        $this->sheet->setCellValue('R2', 'SKU Name');
-        $this->sheet->setCellValue('S2', 'Status*');
-        $this->sheet->setCellValue('T2', 'Jumlah Stok*');
-        $this->sheet->setCellValue('U2', 'Harga (Rp)*');
-        $this->sheet->setCellValue('V2', 'Asuransi Pengiriman');
-        //line 2 for description
-        $this->sheet->setCellValue('A3', 'Abaikan kolom ini. Kolom ini akan berisi pesan kesalahan jika ada setelah kamu melakukan proses upload');
-        $this->sheet->setCellValue('B3', "Masukkan nama produk (maks. 70 karakter).\n Catatan: Nama produk hanya bisa diubah jika produk ini belum terjual.\nNama harus unik untuk setiap produk.\n Untuk produk dengan varian, nama produk harus diisi sama untuk semua varian.");
-        $this->sheet->setCellValue('C3', 'Masukkan deskripsi produk dengan lengkap dan jelas (maks. 2000 karakter).');
-        $this->sheet->setCellValue('D3', 'Pilih kategori kode dari daftar kategori.');
-        $this->sheet->setCellValue('E3', 'Masukan berat produk dengan angka tanpa menggunakan koma dan titik.');
-        $this->sheet->setCellValue('F3', 'Tentukan jumlah minimum pemesanan Jika tidak diisi atau mengandung sesuatu di luar 1 hingga 9999 maka otomatis 1');
-        $this->sheet->setCellValue('G3', '(Opsional) Kelompokan produk dalam Etalase agar mudahkan pembeli mencari produkmu.Dapatkan kode etalase dari sheet Daftar Etalase dan masukkan salah satu kode etalase toko pilihanmu.Jika tidak diisi, maka produk akan otomatis masuk ke dalam etalase draft.');
-        $this->sheet->setCellValue('H3', "(Opsional) Masukkan jumlah hari PreOrder.\nJika kamu mengaktifkan fitur PreOrder, kamu harus menulis jumlah hari proses PreOrder antara 3 hingga 90 hari.\nJika kolom tidak diisi atau mengandung sesuatu di luar 3 hingga 90 maka otomatis 'Tidak' ada PreOrder");
-        $this->sheet->setCellValue('I3', "Pilih salah satu kondisi produk: Baru atau Bekas \n Jika kolom tidak diisi atau mengandung sesuatu di luar baru atau bekas maka otomatis baru");
-        $this->sheet->setCellValue('J3', $this->imgd);
-        $this->sheet->setCellValue('K3', $this->imgd);
-        $this->sheet->setCellValue('L3', $this->imgd);
-        $this->sheet->setCellValue('M3', $this->imgd);
-        $this->sheet->setCellValue('N3', $this->imgd);
-        $this->sheet->setCellValue('O3', $this->vidurl);
-        $this->sheet->setCellValue('P3', $this->vidurl);
-        $this->sheet->setCellValue('Q3', $this->vidurl);
-        $this->sheet->setCellValue('R3', '(Opsional) Masukkan SKU maks. 50 karakter. SKU bisa diubah jika produk ini belum terjual.');
-        $this->sheet->setCellValue('S3', 'Pilih status produk: Aktif atau Nonaktif.Jika kolom tidak diisi atau mengandung sesuatu di luar aktif atau nonaktif maka otomatis aktif');
-        $this->sheet->setCellValue('T3', "Isi jumlah stok yang tersedia dalam format angka tanpa menggunakan koma dan titik.\nStok akan berkurang ketika pembayaran dari pembeli telah diverifikasi.\nJumlah stok tidak ditampilkan kepada pembeli.\nJika kolom tidak diisi atau mengandung sesuatu di luar 1 hingga 999999 maka otomatis 1");
-        $this->sheet->setCellValue('U3', 'Masukkan harga produk. Harga dalam rupiah tanpa menggunakan koma dan titik. Harga harus min 100');
-        $this->sheet->setCellValue('V3', "Aktifkan jaminan kerugian kerusakan & kehilangan atas pengiriman produk ini.\n Pilih: ya atau opsional.Jika kolom tidak diisi atau mengandung sesuatu di luar ya atau opsional maka otomatis ya");
-    }
-
     public function create_excel($conn, $sq, $nama_file, $hapus_kata, $preorders, $stok, $markups, $metode_markup, $nilai_markup, $rumus, $nama_awal, $nama_akhir, $deskripsi_awal, $deskripsi_akhir, $kategori, $berat, $min_pesan, $etalase, $f, $shop)
     {
-        // call header 
-        $this->create_header();
 
         $rumusHarga = new RumusHarga();
 
@@ -262,48 +204,14 @@ class ExcelCreate
             $i++;
         }
 
-        // Wrap Text
-        $this->spreadsheet->getActiveSheet()->getStyle('A3:V3')->getAlignment()->setWrapText(true);
-
         // Style Column Width
         $this->spreadsheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(35);
 
         // Set Alignment
         $this->sheet->getStyle('A4:V' . $i)->getAlignment()->setHorizontal('left');
-        $this->sheet->getStyle('A1:V1')->getAlignment()->setHorizontal('center');
 
         // Set Font All
         $this->spreadsheet->getDefaultStyle()->getFont()->setName('Calibri');
-
-        // Setting Style Font Line 1,2,3
-        $this->spreadsheet->getActiveSheet()->getStyle('A1:V1')->getFont()->setSize(20)->setBold(true);
-        $this->spreadsheet->getActiveSheet()->getStyle('A2:V2')->getFont()->setSize(14)->setBold(false);
-        $this->spreadsheet->getActiveSheet()->getStyle('A3:V3')->getFont()->setSize(12)->setBold(false);
-
-        // Setting Color Line 1,2,3
-        // Bagian Hijau
-        $this->spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()
-            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-            ->getStartColor()->setARGB('93c47d');
-        $this->spreadsheet->getActiveSheet()->getStyle('A2:Q2')->getFill()
-            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-            ->getStartColor()->setARGB('6aa84f');
-        $this->spreadsheet->getActiveSheet()->getStyle('A3:Q3')->getFill()
-            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-            ->getStartColor()->setARGB('c5e2c1');
-
-        // Bagian Biru
-        $this->spreadsheet->getActiveSheet()->getStyle('R1:V1')->getFill()
-            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-            ->getStartColor()->setARGB('6d9eeb');
-        $this->spreadsheet->getActiveSheet()->getStyle('R2:V2')->getFill()
-            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-            ->getStartColor()->setARGB('3c78d8');
-        $this->spreadsheet->getActiveSheet()->getStyle('R3:V3')->getFill()
-            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-            ->getStartColor()->setARGB('cfe2f3');
-
-
 
         //Create File XLSX
         $writer = new Xlsx($this->spreadsheet);
