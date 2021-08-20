@@ -4,6 +4,7 @@ include '../config.php';
 include 'RumusHarga.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExcelCreate
@@ -12,12 +13,12 @@ class ExcelCreate
     public $spreadsheet;
 
     public $imgd = "Masukkan alamat website (link) foto produk
-                Untuk upload:
-                1. Upload ke https://imgur.com/upload
-    
-                Untuk dapatkan URL Gambar:
-                1. Di Google Chrome, klik kanan pada gambar
-                2. Klik 'Open Link in a New Tab'
+                Untuk upload:\n
+                1. Upload ke https://imgur.com/upload\n
+                \n
+                Untuk dapatkan URL Gambar:\n
+                1. Di Google Chrome, klik kanan pada gambar\n
+                2. Klik 'Open Link in a New Tab'\n
                 3. Copy link untuk kemudian dimasukan pada kolom ini";
     public $vidurl = "Tambahkan video untuk menjelaskan spesifikasi dan cara menggunakan produk yang kamu jual.
                 Hanya boleh URL dari Youtube";
@@ -31,6 +32,13 @@ class ExcelCreate
 
     public function create_header()
     {
+        // Line 1
+        $this->sheet->setCellValue('B1', 'Informasi Produk');
+        $this->sheet->mergeCells('B1:Q1');
+        $this->sheet->setCellValue('R1', 'Informasi SKU');
+        $this->sheet->mergeCells('R1:V1');
+
+        // Line 2
         $this->sheet->setCellValue('A2', 'Error Message');
         $this->sheet->setCellValue('B2', 'Nama Produk*');
         $this->sheet->setCellValue('C2', 'Deskripsi Produk');
@@ -86,7 +94,7 @@ class ExcelCreate
         $rumusHarga = new RumusHarga();
 
         // create row
-        $i = 5;
+        $i = 4;
 
         $st_re = explode(",", $hapus_kata); // pemisah kata
 
@@ -254,7 +262,50 @@ class ExcelCreate
             $i++;
         }
 
-        $this->spreadsheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(40, 'px');
+        // Wrap Text
+        $this->spreadsheet->getActiveSheet()->getStyle('A3:V3')->getAlignment()->setWrapText(true);
+
+        // Style Column Width
+        $this->spreadsheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(35);
+
+        // Set Alignment
+        $this->sheet->getStyle('A4:V' . $i)->getAlignment()->setHorizontal('left');
+        $this->sheet->getStyle('A1:V1')->getAlignment()->setHorizontal('center');
+
+        // Set Font All
+        $this->spreadsheet->getDefaultStyle()->getFont()->setName('Calibri');
+
+        // Setting Style Font Line 1,2,3
+        $this->spreadsheet->getActiveSheet()->getStyle('A1:V1')->getFont()->setSize(20)->setBold(true);
+        $this->spreadsheet->getActiveSheet()->getStyle('A2:V2')->getFont()->setSize(14)->setBold(false);
+        $this->spreadsheet->getActiveSheet()->getStyle('A3:V3')->getFont()->setSize(12)->setBold(false);
+
+        // Setting Color Line 1,2,3
+        // Bagian Hijau
+        $this->spreadsheet->getActiveSheet()->getStyle('A1:Q1')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('93c47d');
+        $this->spreadsheet->getActiveSheet()->getStyle('A2:Q2')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('6aa84f');
+        $this->spreadsheet->getActiveSheet()->getStyle('A3:Q3')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('c5e2c1');
+
+        // Bagian Biru
+        $this->spreadsheet->getActiveSheet()->getStyle('R1:V1')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('6d9eeb');
+        $this->spreadsheet->getActiveSheet()->getStyle('R2:V2')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('3c78d8');
+        $this->spreadsheet->getActiveSheet()->getStyle('R3:V3')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('cfe2f3');
+
+
+
+        //Create File XLSX
         $writer = new Xlsx($this->spreadsheet);
         $writer->save($nama_file . '-' . $f . '.xlsx');
     }
