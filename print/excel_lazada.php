@@ -2,8 +2,7 @@
 include '../config.php';
 include 'ExcelCreate.php';
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 $id_scrap = $_POST['id_scrap'];
 $nama_file = $_POST['nama_file'];
@@ -31,14 +30,15 @@ for ($f = 0; $f < $counts; $f++) {
     if ($f % 300 == 1) {
         $sq = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap' LIMIT 300 OFFSET " . $f);
 
-        $spreadsheet = new Spreadsheet();
+        $reader = new Xlsx();
+        $spreadsheet = $reader->load('templetes.xlsx');
+        $sheet = $spreadsheet->getActiveSheet();
+
         $spreadsheet->getProperties()
             ->setTitle("")
             ->setCreator("xuri")
             ->setCreated($date);
 
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setTitle("ISI Template Impor Produk");
         $excel = new ExcelCreate($sheet, $spreadsheet);
 
         $excel->create_excel(
