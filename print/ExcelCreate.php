@@ -60,8 +60,18 @@ class ExcelCreate
         while ($rs = mysqli_fetch_assoc($sq)) {
             //Penghapus Kata
             $row = str_replace($st_re, " ", $rs);
+            $sku_shopee = "";
+            $text = $row['nama_produk'];
+            $cleanspace = str_replace(" ", '', $text);
+            $characters = preg_replace("/[^A-Za-z ]/", '', $cleanspace);
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            $length = 7;
+            for ($nos = 0; $nos < $length; $nos++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            $sku_shopee = strtoupper($randomString) . '-' . rand(1111111, 9999999);
             //Penghitung Rumus
-
 
             if ($markups == 'metode') {
                 if ($metode_markup == '%') {
@@ -181,10 +191,18 @@ class ExcelCreate
                 'Q' . $i,
                 $vid
             );
-            $this->sheet->setCellValue(
-                'R' . $i,
-                $row['sku_name']
-            );
+            if ($shop == 'shopee') {
+
+                $this->sheet->setCellValue(
+                    'R' . $i,
+                    $sku_shopee
+                );
+            } else {
+                $this->sheet->setCellValue(
+                    'R' . $i,
+                    $row['sku_name']
+                );
+            }
             $this->sheet->setCellValue(
                 'S' . $i,
                 $row['status']

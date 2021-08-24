@@ -89,6 +89,9 @@ if ($_SESSION['isLogin'] == false) {
         </div>
     </div>
 
+    <?php include 'component/footer.php'; ?>
+
+
     <div class="modal modal-dialog-scrollable fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -200,7 +203,7 @@ if ($_SESSION['isLogin'] == false) {
                                     <div class="col">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="inputGroup-sizing-default">Kategori</span>
-                                            <input type="text" name="kategori" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="123">
+                                            <input type="text" name="kategori" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="123" required>
                                         </div>
                                     </div>
                                 </div>
@@ -237,14 +240,14 @@ if ($_SESSION['isLogin'] == false) {
                                         <div class="col">
                                             <div class="input-group">
                                                 <span class="input-group-text" id="inputGroup-sizing-default">Berat</span>
-                                                <input type="number" name="berat" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="123">
+                                                <input type="number" name="berat" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="123" required>
                                                 <span class="input-group-text">g</span>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="input-group">
                                                 <span class="input-group-text" id="inputGroup-sizing-default">Min Pesan</span>
-                                                <input type="number" name="min_pesan" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="123">
+                                                <input type="number" name="min_pesan" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="123" required>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -259,7 +262,7 @@ if ($_SESSION['isLogin'] == false) {
                                         <div class="col">
                                             <div class="input-group">
                                                 <span class="input-group-text" id="inputGroup-sizing-default">Save As</span>
-                                                <input type="text" class="form-control" name="nama_file" aria-label="Sizing example input" required aria-describedby="inputGroup-sizing-default" placeholder="Nama Toko (Min 3 letter)">
+                                                <input type="text" class="form-control" name="nama_file" aria-label="Sizing example input" required aria-describedby="inputGroup-sizing-default" placeholder="Nama Toko (Min 3 letter)" required>
                                             </div>
                                         </div>
                                     </div>
@@ -276,6 +279,9 @@ if ($_SESSION['isLogin'] == false) {
             </div>
         </div>
     </div>
+
+
+
     <script src="assets/js/shopee_page.min.js"></script>
 </body>
 

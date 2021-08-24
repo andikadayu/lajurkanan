@@ -69,7 +69,7 @@ if ($_SESSION != null) {
             </div>
         </div>
     </div>
-
+    <?php include 'component/footer.php'; ?>
     <script src="assets/js/remember.min.js"></script>
 
 </body>

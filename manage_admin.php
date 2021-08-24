@@ -137,6 +137,7 @@ if ($_SESSION['isLogin'] == false) {
             </div>
         </div>
     </div>
+    <?php include 'component/footer.php'; ?>
     <script src="assets/js/manage_admin.min.js"></script>
 </body>
 

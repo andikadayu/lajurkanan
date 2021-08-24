@@ -63,6 +63,7 @@ if ($_SESSION != null) {
         </div>
     </div>
 
+    <?php include 'component/footer.php'; ?>
 </body>
 
 </html>

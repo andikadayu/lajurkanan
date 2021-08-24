@@ -91,6 +91,7 @@ if ($_SESSION['isLogin'] == false) {
             </div>
         </div>
     </div>
+    <?php include 'component/footer.php'; ?>
 </body>
 
 </html>
