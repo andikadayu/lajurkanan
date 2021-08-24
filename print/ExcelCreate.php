@@ -36,7 +36,7 @@ class ExcelCreate
         $rumusHarga = new RumusHarga();
 
         // create row
-        $i = 4;
+        $i = 5; //space 1
 
         $st_re = explode(",", $hapus_kata); // pemisah kata
 
@@ -59,7 +59,49 @@ class ExcelCreate
 
         while ($rs = mysqli_fetch_assoc($sq)) {
             //Penghapus Kata
-            $row = str_replace($st_re, " ", $rs);
+            $rmdef = [
+                "Octopus",
+                "Vagina",
+                "Penis",
+                "Orico",
+                "Knee",
+                "Kpop",
+                "Bt21",
+                "Bts",
+                "Exo",
+                "Blackpink",
+                "Xiaomi",
+                "Spiral",
+                "Hoonigan",
+                "Ikea",
+                "Sunnersta",
+                "Imitasi",
+                "Sunglasses",
+                "ambilight",
+                "pop socket",
+                "celine",
+                "ps4",
+                "playstation",
+                "rcm",
+                "nintendo",
+                "restaclat",
+                "redragon",
+                "hilfiger",
+                "calvin klein",
+                "kaws",
+                "dior",
+                "Huawei",
+                "Rapid",
+                "peppa pig",
+                "Shopee",
+                "Lazada",
+                "Graco",
+                "="
+            ];
+            $autoremove = str_replace($rmdef, "", $rs);
+            $row = str_replace($st_re, "", $autoremove);
+
+            // generator sku name
             $sku_shopee = "";
             $text = $row['nama_produk'];
             $cleanspace = str_replace(" ", '', $text);
@@ -71,6 +113,21 @@ class ExcelCreate
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }
             $sku_shopee = strtoupper($randomString) . '-' . rand(1111111, 9999999);
+
+
+            $nama_produks = "";
+            $deskripsi_produks = "";
+            if ($nama_awal !== '' || $nama_akhir !== '') {
+                $nama_produks = $nama_awal . " " . $row['nama_produk'] . " " . $nama_akhir;
+            } else {
+                $nama_produks = $row['nama_produk'];
+            }
+            if ($deskripsi_awal !== '' || $deskripsi_akhir !== '') {
+                $deskripsi_produks = $deskripsi_awal . " " . $row['deskripsi'] . " " . $deskripsi_akhir;
+            } else {
+                $deskripsi_produks = $row['deskripsi'];
+            }
+
             //Penghitung Rumus
 
             if ($markups == 'metode') {
@@ -106,11 +163,11 @@ class ExcelCreate
             );
             $this->sheet->setCellValue(
                 'B' . $i,
-                $nama_awal . " " . $row['nama_produk'] . " " . $nama_akhir
+                substr($nama_produks, 0, 70)
             );
             $this->sheet->setCellValue(
                 'C' . $i,
-                $deskripsi_awal . " " . $row['deskripsi'] . " " . $deskripsi_akhir
+                substr($deskripsi_produks, 0, 2000)
             );
             $this->sheet->setCellValue(
                 'D' . $i,

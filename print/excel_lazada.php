@@ -27,8 +27,8 @@ $sheet;
 $sql = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap'");
 $counts = mysqli_num_rows($sql);
 for ($f = 0; $f < $counts; $f++) {
-    if ($f % 300 == 1) {
-        $sq = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap' LIMIT 300 OFFSET " . $f);
+    if ($f % 299 == 1) { //limit 299
+        $sq = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap' LIMIT 299 OFFSET " . $f); //limit 299
 
         $reader = new Xlsx();
         $spreadsheet = $reader->load('templetes.xlsx');

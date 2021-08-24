@@ -30,8 +30,8 @@ $date = date_timestamp_get($dates);
 $spreadsheet;
 $sheet;
 for ($f = 0; $f < $counts; $f++) {
-    if ($f % 300 == 1) {
-        $sq = mysqli_query($conn, "SELECT * FROM `tb_shopee` WHERE id_scrape = '$id_scrap' AND jumlah_stok >= " . $_POST['stok'] . " LIMIT 300 OFFSET " . $f);
+    if ($f % 299 == 1) { // limit 299
+        $sq = mysqli_query($conn, "SELECT * FROM `tb_shopee` WHERE id_scrape = '$id_scrap' AND jumlah_stok >= " . $_POST['stok'] . " LIMIT 299 OFFSET " . $f); //limit 299
 
         $reader = new Xlsx();
         $spreadsheet = $reader->load('templetes.xlsx');
