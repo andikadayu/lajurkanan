@@ -33,18 +33,6 @@ function getShops() {
     });
 }
 
-function checkMarkups(nm) {
-    if (nm == 'rumus') {
-        $('#rumus').attr('disabled', false);
-        $('#metode_markup').attr('disabled', true);
-        $('#nilai_markup').attr('disabled', true);
-    } else {
-        $('#rumus').attr('disabled', true);
-        $('#metode_markup').attr('disabled', false);
-        $('#nilai_markup').attr('disabled', false);
-    }
-}
-
 function cetakExcel(id) {
     $('#ex_id_scrap').val(id);
 }

@@ -217,7 +217,7 @@ if ($_SESSION['isLogin'] == false) {
                                     <div class="col">
                                         <div class="input-group">
                                             <div class="input-group-text">
-                                                <input class="form-check-input mt-0" type="radio" name="markups" value="metode" onclick="checkMarkups(this.value)" aria-label="Radio button for following text input">Markup
+                                                <input class="form-check-input mt-0" type="checkbox" name="markups_perhar" value="yes" onclick="if(this.checked === false){document.getElementById('nilai_markup').disabled=true;document.getElementById('metode_markup').disabled=true;}else{document.getElementById('nilai_markup').disabled=false;document.getElementById('metode_markup').disabled=false;}" aria-label="Radio button for following text input">Markup
                                             </div>
                                             <input type="number" name="nilai_markup" id="nilai_markup" class="form-control" aria-label="Text input with radio button" disabled>
                                             <div class="input-group-text">
@@ -232,7 +232,7 @@ if ($_SESSION['isLogin'] == false) {
                                     <div class="col">
                                         <div class="input-group">
                                             <div class="input-group-text">
-                                                <input class="form-check-input mt-0" type="radio" name="markups" value="rumus" onclick="checkMarkups(this.value)" aria-label="Radio button for following text input">Harga
+                                                <input class="form-check-input mt-0" type="checkbox" name="markups_rumus" value="yes" onclick="if(this.checked === false){document.getElementById('rumus').disabled=true}else{document.getElementById('rumus').disabled=false}" aria-label="Radio button for following text input">Harga
                                             </div>
                                             <select name="rumus" id="rumus" class="form-select form-select-sm" disabled>
                                                 <option value="Murah">Rumus Murah</option>

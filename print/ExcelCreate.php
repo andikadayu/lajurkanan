@@ -30,7 +30,7 @@ class ExcelCreate
         $this->spreadsheet = $spreadsheet;
     }
 
-    public function create_excel($conn, $sq, $nama_file, $hapus_kata, $preorders, $stok, $markups, $metode_markup, $nilai_markup, $rumus, $nama_awal, $nama_akhir, $deskripsi_awal, $deskripsi_akhir, $kategori, $berat, $min_pesan, $etalase, $f, $shop)
+    public function create_excel($conn, $sq, $nama_file, $hapus_kata, $preorders, $stok, $markups_perhar, $markups_rumus, $metode_markup, $nilai_markup, $rumus, $nama_awal, $nama_akhir, $deskripsi_awal, $deskripsi_akhir, $kategori, $berat, $min_pesan, $etalase, $f, $shop)
     {
 
         $rumusHarga = new RumusHarga();
@@ -55,6 +55,9 @@ class ExcelCreate
 
         $harga = 0;
         $tambah = 0;
+        $hargaperhar = 0;
+        $hargarumus = 0;
+        $hargascrap = 0;
         //Content XLSX
 
         while ($rs = mysqli_fetch_assoc($sq)) {
@@ -101,6 +104,9 @@ class ExcelCreate
             $autoremove = str_replace($rmdef, "", $rs);
             $row = str_replace($st_re, "", $autoremove);
 
+            //set harga
+            $hargascrap = $row['harga'];
+
             // generator sku name
             $sku_shopee = "";
             $text = $row['nama_produk'];
@@ -112,7 +118,7 @@ class ExcelCreate
             for ($nos = 0; $nos < $length; $nos++) {
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }
-            $sku_shopee = strtoupper($randomString) . '-' . rand(1111111, 9999999);
+            $sku_shopee = strtoupper($randomString) . rand(1111111, 9999999);
 
 
             $nama_produks = "";
@@ -130,16 +136,20 @@ class ExcelCreate
 
             //Penghitung Rumus
 
-            if ($markups == 'metode') {
+            if ($markups_perhar == 'yes') {
                 if ($metode_markup == '%') {
-                    $tambah = $row['harga'] * $nilai_markup / 100;
-                    $harga = $row['harga'] + $tambah;
+                    $tambah = $hargascrap * $nilai_markup / 100;
+                    $hargaperhar = $hargascrap + $tambah;
                 } else {
-                    $harga = $row['harga'] + $nilai_markup;
+                    $hargaperhar = $hargascrap + $nilai_markup;
                 }
-            } else {
-                $harga = $rumusHarga->getHarga($row['harga'], $rumus);
             }
+            if ($markups_rumus == 'yes') {
+                $hargarumus = $rumusHarga->getHarga($hargascrap, $rumus);
+            }
+
+            // final harga;
+            $harga = $hargaperhar + $hargarumus;
 
             //Random URL
             if ($row['gambar1'] != "") {
@@ -196,44 +206,44 @@ class ExcelCreate
             if ($shop == 'shopee') {
                 $this->sheet->setCellValue(
                     'J' . $i,
-                    ($nog >= 1 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                    ($nog >= 1 ? "https://f.shopee.co.id/file/" . $items["img0"] : '')
                 );
                 $this->sheet->setCellValue(
                     'K' . $i,
-                    ($nog >= 2 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                    ($nog >= 2 ? "https://f.shopee.co.id/file/" . $items["img1"] : '')
                 );
                 $this->sheet->setCellValue(
                     'L' . $i,
-                    ($nog >= 3 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                    ($nog >= 3 ? "https://f.shopee.co.id/file/" . $items["img2"] : '')
                 );
                 $this->sheet->setCellValue(
                     'M' . $i,
-                    ($nog >= 4 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                    ($nog >= 4 ? "https://f.shopee.co.id/file/" . $items["img3"] : '')
                 );
                 $this->sheet->setCellValue(
                     'N' . $i,
-                    ($nog >= 5 ? "https://cf.shopee.co.id/file/" . $items["img" . random_int(0, $nog - 1)] : '')
+                    ($nog >= 5 ? "https://f.shopee.co.id/file/" . $items["img" . random_int(4, $nog - 1)] : '')
                 );
             } else {
                 $this->sheet->setCellValue(
                     'J' . $i,
-                    ($nog >= 1 ? $items[random_int(1, $nog)] : '')
+                    ($nog >= 1 ? $items[1] : '')
                 );
                 $this->sheet->setCellValue(
                     'K' . $i,
-                    ($nog >= 2 ? $items[random_int(1, $nog)] : '')
+                    ($nog >= 2 ? $items[2] : '')
                 );
                 $this->sheet->setCellValue(
                     'L' . $i,
-                    ($nog >= 3 ? $items[random_int(1, $nog)] : '')
+                    ($nog >= 3 ? $items[3] : '')
                 );
                 $this->sheet->setCellValue(
                     'M' . $i,
-                    ($nog >= 4 ? $items[random_int(1, $nog)] : '')
+                    ($nog >= 4 ? $items[4] : '')
                 );
                 $this->sheet->setCellValue(
                     'N' . $i,
-                    ($nog >= 5 ? $items[random_int(1, $nog)] : '')
+                    ($nog >= 5 ? $items[random_int(5, $nog)] : '')
                 );
             }
             $this->sheet->setCellValue(
