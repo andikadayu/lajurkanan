@@ -118,7 +118,7 @@ class ExcelCreate
             for ($nos = 0; $nos < $length; $nos++) {
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }
-            $sku_shopee = strtoupper($randomString) . rand(1111111, 9999999);
+            $sku_shopee = strtoupper($randomString) . '-' . rand(1111111, 9999999);
 
 
             $nama_produks = "";
