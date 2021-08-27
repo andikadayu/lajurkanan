@@ -4,7 +4,6 @@ require  __DIR__ . '/vendor/autoload.php';
 
 ini_set('max_execution_time', '3600');
 set_time_limit(3600);
-apache_setenv('no-gzip', 1);
 ini_set('zlib.output_compression', 0);
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
