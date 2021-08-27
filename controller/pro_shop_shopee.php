@@ -152,6 +152,7 @@
 
             $i++;
             $perc = $i / $c * 100;
+            $data = [];
             echo "<script>
                                                 $('#pr_bar').css('width','$perc%');$('#percentages').text('$perc%');if ($perc >= 100) {alert('Scrap Data Done');location.href='../shopee_page.php';}</script>";
         }
