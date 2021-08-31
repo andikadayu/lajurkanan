@@ -80,7 +80,7 @@
     use Curl\Curl;
 
 
-    $curl = new Curl();
+
 
     $id = $_POST['id_user'];
     $dates = date('Y-m-d H:i:s');
@@ -119,6 +119,8 @@
 
     if ($sql1) {
         foreach ($_POST['links'] as $key => $values) {
+            $curl = new Curl();
+
             $linkss = str_replace(["'", "`"], "", $values);
             $str_url = explode("/", $values);
             $origin = 'https://' . $str_url[2];
@@ -129,10 +131,10 @@
 
             $curl->get($origin . "/api/v4/item/get?itemid=" . $item_id . "&shopid=" . $shop_id . "&version=" . $version);
             $version++;
-            if ($curls->error) {
+            if ($curl->error) {
                 echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
             } else {
-                $js = $curls->response;
+                $js = $curl->response;
 
                 foreach ($js->data->images as $key => $value) {
                     $image["img$key"] = $value;
