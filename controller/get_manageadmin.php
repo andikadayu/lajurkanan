@@ -28,8 +28,9 @@ if ($_GET['purpose'] == 'deleteData') {
 
 if ($_GET['purpose'] == 'activateData') {
     $id = $_GET['id'];
-
+    $accesskey = "LKO-" . md5($id);
     $sql = mysqli_query($conn, "UPDATE tb_user SET is_active = 1 WHERE id_user='$id'");
+    $nsq = mysqli_query($conn, "UPDATE tb_user SET accesskey = '$accesskey' WHERE id_user = '$id'");
     if ($sql) {
         echo 'success';
     } else {

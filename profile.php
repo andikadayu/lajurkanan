@@ -71,6 +71,14 @@ if ($_SESSION['isLogin'] == false) {
                                     </div>
                                     <div class="row" style="margin-top: 10px;">
                                         <div class="col-3">
+                                            <label for="accesskey">Access Key</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input type="text" id="accesskey" name="accesskey" value="<?php echo $data['accesskey']; ?>" class="form-control" aria-required="true" readonly aria-readonly="true" required>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <div class="col-3">
                                             <label for="password">Password</label>
                                         </div>
                                         <div class="col-9">
