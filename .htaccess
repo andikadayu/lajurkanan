@@ -19,4 +19,4 @@ RewriteBase /
     Deny from all
 </Files>
 
-Options All -Indexes
+# Options All -Indexes
