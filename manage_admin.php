@@ -139,6 +139,7 @@ if ($_SESSION['isLogin'] == false) {
     </div>
     <?php include 'component/footer.php'; ?>
     <script src="assets/js/manage_admin.min.js"></script>
+    <?php $conn->close(); ?>
 </body>
 
 </html>

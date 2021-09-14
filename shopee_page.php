@@ -55,25 +55,15 @@ if ($_SESSION['isLogin'] == false) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            if ($_SESSION['role'] == 'user') {
-                                                $sql = mysqli_query($conn, "SELECT sc.*,user.name,(SELECT COUNT(*) FROM tb_shopee WHERE tb_shopee.id_scrape = sc.id_scrap) as counts FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=1 AND sc.id_user='" . $_SESSION['id_user'] . "' ORDER BY sc.tgl_scrap DESC");
-                                            } else {
-                                                $sql = mysqli_query($conn, "SELECT sc.*,user.name,(SELECT COUNT(*) FROM tb_shopee WHERE tb_shopee.id_scrape = sc.id_scrap) as counts FROM tb_scrap as sc INNER JOIN tb_user as user ON user.id_user = sc.id_user WHERE sc.id_commerce=1 ORDER BY sc.tgl_scrap DESC");
-                                            }
-                                            $no = 1;
 
-                                            while ($d = mysqli_fetch_assoc($sql)) { ?>
-                                                <tr>
-                                                    <td><?php echo $no++; ?></td>
-                                                    <td><?php echo date_format(date_create($d['tgl_scrap']), 'D,d-M-Y H:i:s'); ?></td>
-                                                    <td><?php echo $d['counts']; ?></td>
-                                                    <td><?php echo $d['name']; ?></td>
-                                                    <td>
-                                                        <button type="button" aria-label="excel" class="btn btn-sm btn-success btn-float rounded-circle" id="btnexc<?php echo $no; ?>" aria-hidden="false" onclick="cetakExcel(<?php echo $d['id_scrap']; ?>)" data-bs-toggle="modal" data-bs-target="#modalExport"><i class="fa fa-file-excel"></i></button>
-                                                        <button type="button" aria-label="delete" class="btn btn-sm btn-danger btn-float rounded-circle" id="btndel<?php echo $no; ?>" aria-hidden="false" onclick="deleteScrap(<?php echo $d['id_scrap']; ?>)"><i class="fa fa-trash"></i></button>
-                                                    </td>
-                                                </tr>
-                                            <?php } ?>
+                                            include 'controller/ViewShopee.php';
+
+                                            $view = new ViewShopee($conn);
+
+                                            echo $view->getRow();
+
+                                            ?>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -274,6 +264,7 @@ if ($_SESSION['isLogin'] == false) {
 
     <?php include 'component/footer.php'; ?>
 
+    <?php $conn->close(); ?>
 
 </body>
 

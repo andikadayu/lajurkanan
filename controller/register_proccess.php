@@ -8,7 +8,7 @@ $alamat = $_POST['alamat'];
 $password = md5($_POST['password']);
 
 
-$sql = mysqli_query($conn, "INSERT INTO tb_user VALUES(NULL,'$name','$no_telp','$alamat','$email','$password','user',0,NULL,NULL)");
+$sql = mysqli_query($conn, "INSERT INTO tb_user VALUES(NULL,'$name','$no_telp','$alamat','$email','$password','user',0,NULL)");
 
 if ($sql) {
     echo "<script>alert('Register Successfull, wait for approval');location.href = '../index.php';</script>";

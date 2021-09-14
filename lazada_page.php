@@ -286,7 +286,7 @@ if ($_SESSION['isLogin'] == false) {
 
     <?php include 'component/footer.php'; ?>
 
-
+    <?php $conn->close(); ?>
 
 </body>
 

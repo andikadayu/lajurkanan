@@ -122,8 +122,7 @@ CREATE TABLE `tb_user` (
   `password` varchar(50) NOT NULL,
   `role` varchar(25) NOT NULL,
   `is_active` int(11) NOT NULL DEFAULT 0,
-  `code` int(6) DEFAULT NULL,
-  `accesskey` text DEFAULT NULL
+  `code` int(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -131,7 +130,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `name`, `no_telp`, `alamat`, `email`, `password`, `role`, `is_active`, `code`, `accesskey`) VALUES
-(1, 'Lajur Kanan Admin', '081111111', 'Alamat', 'admin@lajurkanan.com', 'f05041e14758d67e868604b522e2ef20', 'superadmin', 1, NULL, 'LKO-c4ca4238a0b923820dcc509a6f75849b');
+(1, 'Lajur Kanan Admin', '081111111', 'Alamat', 'admin@lajurkanan.com', 'f05041e14758d67e868604b522e2ef20', 'superadmin', 1, NULL);
 
 --
 -- Indexes for dumped tables
