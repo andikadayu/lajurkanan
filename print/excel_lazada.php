@@ -18,6 +18,15 @@ if (!empty($_POST['metode_markup']) && !empty($_POST['nilai_markup'])) {
     $nilai = $_POST['nilai_markup'];
 }
 
+$markups_perhar = "";
+if (!empty($_POST['markups_perhar'])) {
+    $markups_perhar = $_POST['markups_perhar'];
+}
+$markups_rumus = "";
+if (!empty($_POST['markups_rumus'])) {
+    $markups_rumus = $_POST['markups_rumus'];
+}
+
 $dates = date_create(date('2007-09-16 07:00:00'));
 $date = date_timestamp_get($dates);
 
@@ -27,11 +36,11 @@ $sheet;
 $sql = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap'");
 $counts = mysqli_num_rows($sql);
 for ($f = 0; $f < $counts; $f++) {
-    if ($f % 300 == 1) {
-        $sq = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap' LIMIT 300 OFFSET " . $f);
+    if ($f % 299 == 1) { //limit 299
+        $sq = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap' LIMIT 299 OFFSET " . $f); //limit 299
 
         $reader = new Xlsx();
-        $spreadsheet = $reader->load('templetes.xlsx');
+        $spreadsheet = $reader->load('sample.xlsx');
         $sheet = $spreadsheet->getActiveSheet();
 
         $spreadsheet->getProperties()
@@ -48,7 +57,8 @@ for ($f = 0; $f < $counts; $f++) {
             $_POST['hapus_kata'],
             $_POST['preorder'],
             $_POST['stok'],
-            $_POST['markups'],
+            $markups_perhar,
+            $markups_rumus,
             $metode,
             $nilai,
             $rumus,

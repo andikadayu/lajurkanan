@@ -19,7 +19,7 @@ if ($_SESSION['isLogin'] == false) {
 }
 ?>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <?php require_once 'component/navbar.php'; ?>
 
 
@@ -91,6 +91,8 @@ if ($_SESSION['isLogin'] == false) {
             </div>
         </div>
     </div>
+    <?php include 'component/footer.php'; ?>
+    <?php $conn->close(); ?>
 </body>
 
 </html>

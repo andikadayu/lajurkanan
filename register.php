@@ -19,7 +19,7 @@ if ($_SESSION != null) {
 }
 ?>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
     <div class="container-fluid">
         <div id="login">
@@ -63,6 +63,7 @@ if ($_SESSION != null) {
         </div>
     </div>
 
+    <?php include 'component/footer.php'; ?>
 </body>
 
 </html>

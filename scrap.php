@@ -19,7 +19,7 @@ if ($_SESSION['isLogin'] == false) {
 }
 ?>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <?php require_once 'component/navbar.php'; ?>
 
 
@@ -33,6 +33,7 @@ if ($_SESSION['isLogin'] == false) {
                                 <div>
                                     <h2>Selamat Datang <?php echo  $_SESSION['name']; ?></h2>
                                     <h3>powered by Lajur Kanan Official</h3>
+                                    <h5>AR Group</h5>
                                 </div>
                             </div>
                         </div>
@@ -42,10 +43,8 @@ if ($_SESSION['isLogin'] == false) {
         </div>
     </div>
 
+    <?php include 'component/footer.php'; ?>
 
-    <script>
-
-    </script>
 </body>
 
 </html>

@@ -24,7 +24,7 @@ if ($_SESSION['isLogin'] == false) {
 }
 ?>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <?php require_once 'component/navbar.php'; ?>
 
     <!-- content -->
@@ -137,7 +137,9 @@ if ($_SESSION['isLogin'] == false) {
             </div>
         </div>
     </div>
+    <?php include 'component/footer.php'; ?>
     <script src="assets/js/manage_admin.min.js"></script>
+    <?php $conn->close(); ?>
 </body>
 
 </html>

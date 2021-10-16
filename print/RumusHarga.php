@@ -115,6 +115,16 @@ class RumusHarga
             } else {
                 $profit = 0;
             }
+        } else if ($harga >= 100001) {
+            if ($rumus == 'Murah') {
+                $profit = $harga * 60 / 100;
+            } else if ($rumus == 'Sedang') {
+                $profit = $harga * 65 / 100;
+            } else if ($rumus == 'Mahal') {
+                $profit = $harga * 70 / 100;
+            } else {
+                $profit = 0;
+            }
         } else {
             $profit = 0;
         }

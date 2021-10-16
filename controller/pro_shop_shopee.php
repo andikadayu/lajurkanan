@@ -75,6 +75,7 @@
 
     <?php
     include '../config.php';
+    include 'ShopProccess.php';
 
     use Goutte\Client;
     use Curl\Curl;
@@ -88,97 +89,88 @@
     $dates = date('Y-m-d H:i:s');
     $shop_ids = $_POST['shop_id'];
 
-    $items = array();
-    $data = array();
-    $c = 0;
-    $nama = NULL;
-    $deskripsi = NULL;
-    $catid = 0;
-    $berat = 0;
-    $min = 1;
-    $etalase = NULL;
-    $preorder = 1;
-    $kondisi = "Baru";
-    $gambar1 = NULL;
-    $video1 = NULL;
-    $sku = NULL;
-    $status = "Aktif";
-    $stok = 12;
-    $harga = 12000;
-    $asuransi = "optional";
-    $i = 0;
-    $str_url;
-    $origin;
-    $param;
-    $params;
-    $shop_id;
-    $item_id;
-    $video = array();
-    $image = array();
-    $linkss;
 
     $sho = explode(',', $shop_ids);
     $c = count($sho);
+    if ($c <= 10) {
+        $cc = count($sho);
+        $items = array();
+        $data = array();
+        $c = 0;
+        $nama = NULL;
+        $deskripsi = NULL;
+        $catid = 0;
+        $berat = 0;
+        $min = 1;
+        $etalase = NULL;
+        $preorder = 1;
+        $kondisi = "Baru";
+        $gambar1 = NULL;
+        $video1 = NULL;
+        $sku = NULL;
+        $status = "Aktif";
+        $stok = 12;
+        $harga = 12000;
+        $asuransi = "optional";
+        $i = 0;
+        $str_url;
+        $origin;
+        $param;
+        $params;
+        $shop_id;
+        $item_id;
+        $video = array();
+        $image = array();
+        $linkss;
 
-    $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',1,'$id')");
-    $ids = mysqli_insert_id($conn);
-    $versionshop = 4;
-    $versionitem = 4;
-    if ($sql1) {
-        foreach ($sho as $key => $value) {
-            $curl->get("https://shopee.co.id/api/v2/search_items/?match_id=" . $value . "&order=desc&page_type=shop&limit=100&version=" . $versionshop);
-            $versionshop++;
+        $datanew = array();
 
-            if ($curl->error) {
-                echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
-            } else {
-                $res =  $curl->response;
-                $items = $res->items;
-                foreach ($items as $key => $value) {
-                    $data[] = ["shopid" => $value->shopid, "itemid" => $value->itemid];
-                }
+        $sql1 = mysqli_query($conn, "INSERT INTO tb_scrap VALUES(NULL,'$dates',1,'$id')");
+        $ids = mysqli_insert_id($conn);
+        $versionshop = 4;
+        $versionitem = 4;
+        if ($sql1) {
+            foreach ($sho as $key => $value) {
+                $curl->get("https://shopee.co.id/api/v2/search_items/?match_id=" . $value . "&order=desc&page_type=shop&limit=100&version=" . $versionshop);
+                $versionshop++;
 
-                foreach ($data as $key => $value) {
-                    $curls = new Curl();
-                    $curls->get("https://shopee.co.id/api/v4/item/get?itemid=" . $value['itemid'] . "&shopid=" . $value['shopid'] . "&version=" . $versionitem);
-                    $versionitem++;
-                    if ($curls->error) {
-                        echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
-                    } else {
-                        $js = $curls->response;
-
-                        foreach ($js->data->images as $key => $value) {
-                            $image["img$key"] = $value;
-                        };
-                        $gambar1 = json_encode($image);
-                        $harga = substr($js->data->price_max, 0, -5);
-                        $stok = $js->data->stock;
-                        $nama = str_replace("'", "", $js->data->name);
-                        $catid = $js->data->catid;
-                        $deskripsi = str_replace("'", "", $js->data->description);
-                        if ($js->data->video_info_list != '') {
-                            $video = $js->data->video_info_list;
-                            $video1 = json_encode($video);
-                        } else {
-                            $video1 = null;
-                        }
-
-                        $linkss = "https://shopee.co.id/" . str_replace(" ", "-", $nama) . "-i." . $js->data->shopid . "." . $js->data->itemid;
-
-                        $sq = mysqli_query($conn, "INSERT INTO tb_shopee VALUES(NULL,'$ids','$linkss','$nama','$deskripsi','$catid','$berat','$min','$etalase','$preorder','$kondisi','$gambar1','$video1','$sku','$status','$stok','$harga','$asuransi')");
-                        if ($sq) {
-                        } else {
-                            var_dump(mysqli_error($conn));
-                        }
+                if ($curl->error) {
+                    echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
+                } else {
+                    $res =  $curl->response;
+                    $items = $res->items;
+                    foreach ($items as $key => $value) {
+                        $data[] = ["shopid" => $value->shopid, "itemid" => $value->itemid];
+                    }
+                    $cn = count($data);
+                    foreach ($data as $key => $values) {
+                        $shopProccess = new ShopProccess($conn, $ids, $values['shopid'], $values['itemid'], $versionitem);
+                        $shopProccess->proccess_insert();
+                        $perc = $i / $cc * 100;
+                        echo "<script>
+                                                    $('#pr_bar').css('width','$perc%');$('#percentages').text('$perc%');if ($perc >= 100) {alert('Scrap Data Done');location.href='../shopee_page.php';}</script>";
                     }
                 }
+
+                $i++;
+                $perc = $i / $cc * 100;
+                $data = [];
+                echo "<script>
+                                                    $('#pr_bar').css('width','$perc%');$('#percentages').text('$perc%');if ($perc >= 100) {alert('Scrap Data Done');location.href='../shopee_page.php';}</script>";
             }
-            $i++;
-            $perc = $i / $c * 100;
+        } else {
             echo "<script>
-                            $('#pr_bar').css('width','$perc%');$('#percentages').text('$perc%');if ($perc >= 100) {alert('Scrap Data Done');location.href='../shopee_page.php';}</script>";
+        alert('Error');
+        location.href='../shopee_page.php';
+        </script>";
         }
+    } else {
+        echo "<script>
+        alert('Maximum 10 Shop ID');
+        location.href='../shopee_page.php';
+        </script>";
     }
+
 
     $conn->close();
     ?>

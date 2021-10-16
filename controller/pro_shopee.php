@@ -80,7 +80,7 @@
     use Curl\Curl;
 
 
-    $curl = new Curl();
+
 
     $id = $_POST['id_user'];
     $dates = date('Y-m-d H:i:s');
@@ -118,21 +118,21 @@
     $version = 4;
 
     if ($sql1) {
-        foreach ($_POST['links'] as $key => $values) {
-            $linkss = str_replace(["'", "`"], "", $values);
-            $str_url = explode("/", $values);
-            $origin = 'https://' . $str_url[2];
-            $param = explode('-i.', $values);
+        foreach ($_POST['links'] as $key => $valued) {
+            $curl = new Curl();
+            $values = stripslashes(str_replace('"', '', $valued));
+            $vals = str_replace('?','.',$values);
+            $param = explode('-i.', $vals);
             $params = explode('.', $param[1]);
             $shop_id = $params[0];
             $item_id = $params[1];
 
-            $curl->get($origin . "/api/v4/item/get?itemid=" . $item_id . "&shopid=" . $shop_id . "&version=" . $version);
+            $curl->get("https://shopee.co.id/api/v4/item/get?itemid=" . $item_id . "&shopid=" . $shop_id . "&version=" . $version);
             $version++;
-            if ($curls->error) {
+            if ($curl->error) {
                 echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
             } else {
-                $js = $curls->response;
+                $js = $curl->response;
 
                 foreach ($js->data->images as $key => $value) {
                     $image["img$key"] = $value;
@@ -150,16 +150,15 @@
                     $video1 = null;
                 }
 
-
+                $linkss = "https://shopee.co.id/" . str_replace(" ", "-", $nama) . "-i." . $js->data->shopid . "." . $js->data->itemid;
                 $sq = mysqli_query($conn, "INSERT INTO tb_shopee VALUES(NULL,'$ids','$linkss','$nama','$deskripsi','$catid','$berat','$min','$etalase','$preorder','$kondisi','$gambar1','$video1','$sku','$status','$stok','$harga','$asuransi')");
                 if ($sq) {
                 } else {
                     var_dump(mysqli_error($conn));
                 }
-                if ($sq) {
-                } else {
-                    var_dump(mysqli_error($conn));
-                }
+                $perc = $i / $c * 100;
+                echo "<script>
+                                    $('#pr_bar').css('width','$perc%');$('#percentages').text('$perc%');if ($perc >= 100) {alert('Scrap Data Done');location.href='../shopee_page.php';}</script>";
             }
 
             $i++;

@@ -14,12 +14,17 @@
 <?php
 include 'config.php';
 session_start();
+if (strpos($_SERVER['REQUEST_URI'], 'index.php') == false) {
+    header("location:index.php");
+}
+
 if ($_SESSION != null) {
     header("location:scrap.php");
 }
+
 ?>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
     <div class="container-fluid">
         <div id="login">
@@ -51,6 +56,8 @@ if ($_SESSION != null) {
             </div>
         </div>
     </div>
+
+    <?php include 'component/footer.php'; ?>
 
 </body>
 
