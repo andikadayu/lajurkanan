@@ -30,14 +30,16 @@ if (!empty($_POST['markups_rumus'])) {
 $dates = date_create(date('2007-09-16 07:00:00'));
 $date = date_timestamp_get($dates);
 
+$min_harga = $_POST['min_harga'];
+
 $spreadsheet;
 $sheet;
 
-$sql = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap'");
+$sql = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap' AND harga >= " . $min_harga . "");
 $counts = mysqli_num_rows($sql);
 for ($f = 0; $f < $counts; $f++) {
-    if ($f % 299 == 1) { //limit 299
-        $sq = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap' LIMIT 299 OFFSET " . $f); //limit 299
+    if ($f % 299 == 0) { //limit 299
+        $sq = mysqli_query($conn, "SELECT * FROM `tb_lazada` WHERE id_scrape = '$id_scrap' AND harga >= " . $min_harga . " LIMIT 299 OFFSET " . $f); //limit 299
 
         $reader = new Xlsx();
         $spreadsheet = $reader->load('sample.xlsx');

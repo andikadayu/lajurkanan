@@ -129,6 +129,6 @@ class RumusHarga
             $profit = 0;
         }
 
-        return $harga + $profit;
+        return $profit;
     }
 }

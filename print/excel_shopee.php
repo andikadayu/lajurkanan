@@ -8,8 +8,10 @@ include 'ExcelCreate.php';
 
 $id_scrap = $_POST['id_scrap'];
 $nama_file = $_POST['nama_file'];
+$min_harga = $_POST['min_harga'];
 
-$sql = mysqli_query($conn, "SELECT * FROM `tb_shopee` WHERE id_scrape = '$id_scrap' AND jumlah_stok >= " . $_POST['stok'] . "");
+
+$sql = mysqli_query($conn, "SELECT * FROM `tb_shopee` WHERE id_scrape = '$id_scrap' AND jumlah_stok >= " . $_POST['stok'] . " AND harga >= " . $min_harga . " ");
 $counts = mysqli_num_rows($sql);
 
 $rumus = "";
@@ -37,8 +39,8 @@ $date = date_timestamp_get($dates);
 $spreadsheet;
 $sheet;
 for ($f = 0; $f < $counts; $f++) {
-    if ($f % 299 == 1) { // limit 299
-        $sq = mysqli_query($conn, "SELECT * FROM `tb_shopee` WHERE id_scrape = '$id_scrap' AND jumlah_stok >= " . $_POST['stok'] . " LIMIT 299 OFFSET " . $f); //limit 299
+    if ($f % 299 == 0) { // limit 299
+        $sq = mysqli_query($conn, "SELECT * FROM `tb_shopee` WHERE id_scrape = '$id_scrap' AND jumlah_stok >= " . $_POST['stok'] . " AND harga >= " . $min_harga . " LIMIT 299 OFFSET " . $f); //limit 299
 
         $reader = new Xlsx();
         $spreadsheet = $reader->load('sample.xlsx');

@@ -12,18 +12,6 @@ class ExcelCreate
     public $sheet;
     public $spreadsheet;
 
-    public $imgd = "Masukkan alamat website (link) foto produk
-                Untuk upload:\n
-                1. Upload ke https://imgur.com/upload\n
-                \n
-                Untuk dapatkan URL Gambar:\n
-                1. Di Google Chrome, klik kanan pada gambar\n
-                2. Klik 'Open Link in a New Tab'\n
-                3. Copy link untuk kemudian dimasukan pada kolom ini";
-    public $vidurl = "Tambahkan video untuk menjelaskan spesifikasi dan cara menggunakan produk yang kamu jual.
-                Hanya boleh URL dari Youtube";
-
-
     public function __construct($sheet, Spreadsheet $spreadsheet)
     {
         $this->sheet = $sheet;
@@ -139,9 +127,9 @@ class ExcelCreate
             if ($markups_perhar == 'yes') {
                 if ($metode_markup == '%') {
                     $tambah = $hargascrap * $nilai_markup / 100;
-                    $hargaperhar = $hargascrap + $tambah;
+                    $hargaperhar =  $tambah;
                 } else {
-                    $hargaperhar = $hargascrap + $nilai_markup;
+                    $hargaperhar =  $nilai_markup;
                 }
             } else {
                 $hargaperhar = 0;
@@ -154,7 +142,7 @@ class ExcelCreate
             }
 
             // final harga;
-            $harga = $hargaperhar + $hargarumus;
+            $harga = $hargascrap + $hargaperhar + $hargarumus;
 
             //Random URL
             if ($row['gambar1'] != "") {
@@ -302,6 +290,13 @@ class ExcelCreate
 
         // Set Font All
         $this->spreadsheet->getDefaultStyle()->getFont()->setName('Calibri');
+
+        $this->sheet->setCellValue('A4', "BELUM");
+        $this->sheet->getStyle('A4:V4')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()
+            ->setARGB('ffff00');
+
 
         //Create File XLSX
         $writer = new Xlsx($this->spreadsheet);

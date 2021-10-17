@@ -240,6 +240,12 @@ if ($_SESSION['isLogin'] == false) {
                                             <div class="row" style="margin-top: 15px;">
                                                 <div class="col">
                                                     <div class="input-group">
+                                                        <span class="input-group-text" id="inputGroup-sizing-default">Min Harga</span>
+                                                        <input type="number" name="min_harga" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="123">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="input-group">
                                                         <span class="input-group-text" id="inputGroup-sizing-default">Save As</span>
                                                         <input type="text" class="form-control" name="nama_file" aria-label="Sizing example input" required aria-describedby="inputGroup-sizing-default" placeholder="Nama Toko (Min 3 letter)" required>
                                                     </div>
