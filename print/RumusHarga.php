@@ -105,7 +105,7 @@ class RumusHarga
             } else {
                 $profit = 0;
             }
-        } else if ($harga >= 50001) {
+        } else if ($harga >= 50001 && $harga <= 100000) {
             if ($rumus == 'Murah') {
                 $profit = $harga * 75 / 100;
             } else if ($rumus == 'Sedang') {
