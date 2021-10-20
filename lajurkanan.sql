@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2021 at 08:45 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.2
+-- Generation Time: Oct 20, 2021 at 03:07 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,6 +65,21 @@ CREATE TABLE `tb_lazada` (
   `jumlah_stok` int(225) DEFAULT NULL,
   `harga` int(255) DEFAULT NULL,
   `asuransi` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_manage`
+--
+
+CREATE TABLE `tb_manage` (
+  `id_subscribe` int(225) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `request_from` date NOT NULL,
+  `request_until` date NOT NULL,
+  `status` int(2) NOT NULL,
+  `harga_subscribe` int(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -132,6 +147,28 @@ CREATE TABLE `tb_user` (
 INSERT INTO `tb_user` (`id_user`, `name`, `no_telp`, `alamat`, `email`, `password`, `role`, `is_active`, `code`) VALUES
 (1, 'Lajur Kanan Admin', '081111111', 'Alamat', 'admin@lajurkanan.com', 'f05041e14758d67e868604b522e2ef20', 'superadmin', 1, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_user_old`
+--
+
+CREATE TABLE `tb_user_old` (
+  `id_user` int(225) NOT NULL,
+  `name` varchar(225) NOT NULL,
+  `no_telp` varchar(25) NOT NULL,
+  `alamat` text NOT NULL,
+  `email` varchar(225) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `role` varchar(25) NOT NULL,
+  `is_active` int(11) NOT NULL DEFAULT 0,
+  `code` int(6) DEFAULT NULL,
+  `accesskey` text DEFAULT NULL,
+  `active_from` date DEFAULT NULL,
+  `active_until` date DEFAULT NULL,
+  `harga_regis` int(225) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -147,6 +184,12 @@ ALTER TABLE `tb_commerce`
 --
 ALTER TABLE `tb_lazada`
   ADD PRIMARY KEY (`id_lazada`);
+
+--
+-- Indexes for table `tb_manage`
+--
+ALTER TABLE `tb_manage`
+  ADD PRIMARY KEY (`id_subscribe`);
 
 --
 -- Indexes for table `tb_scrap`
@@ -168,6 +211,12 @@ ALTER TABLE `tb_user`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `tb_user_old`
+--
+ALTER TABLE `tb_user_old`
+  ADD PRIMARY KEY (`id_user`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -182,6 +231,12 @@ ALTER TABLE `tb_commerce`
 --
 ALTER TABLE `tb_lazada`
   MODIFY `id_lazada` int(225) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tb_manage`
+--
+ALTER TABLE `tb_manage`
+  MODIFY `id_subscribe` int(225) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_scrap`
@@ -200,6 +255,12 @@ ALTER TABLE `tb_shopee`
 --
 ALTER TABLE `tb_user`
   MODIFY `id_user` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tb_user_old`
+--
+ALTER TABLE `tb_user_old`
+  MODIFY `id_user` int(225) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

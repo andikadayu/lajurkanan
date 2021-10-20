@@ -12,6 +12,7 @@
         "vlucas/phpdotenv": "^5.3",
         "phpmailer/phpmailer": "^6.5",
         "phpoffice/phpspreadsheet": "^1.18",
-        "php-curl-class/php-curl-class": "^9.3"
+        "php-curl-class/php-curl-class": "^9.3",
+        "mpdf/mpdf": "^8.0"
     }
 }
