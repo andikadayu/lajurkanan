@@ -81,7 +81,9 @@ for ($f = 0; $f < $counts; $f++) {
 
         $zip = new ZipArchive();
         $zip->open(__DIR__ . '/' . $nama_file . '.zip', ZIPARCHIVE::CREATE);
-        $zip->addGlob($nama_file . '-*.xlsx');
+        foreach (glob("$nama_file-*.xlsx") as $downs) {
+            $zip->addFile(__DIR__ . '/'."$downs","$downs");
+        }
         $zip->close();
 
         $file = $nama_file . '.zip';

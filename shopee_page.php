@@ -40,6 +40,7 @@ if ($_SESSION['isLogin'] == false) {
                         <div class="card-body">
                             <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Single Scrap</button>
                             <button type="button" class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#shopModal">Scrap per Shop</button>
+                            <button type="button" class="btn btn-md btn-secondary" data-bs-toggle="modal" data-bs-target="#betaModal">Scrap Item (Beta)</button>
 
                             <div class="row" style="margin-top: 10px;">
                                 <div class="table-responsive">
@@ -116,6 +117,30 @@ if ($_SESSION['isLogin'] == false) {
                                 <div class="from-group">
                                     <label for="shop_id">ID Toko</label>
                                     <textarea name="shop_id" id="shop_id" rows="5" class="form-control" placeholder="place id toko seperate by comma" required aria-required="true"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="scBtn1">Scrap Data</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal modal-dialog-scrollable fade" id="betaModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel2">Scrap Item</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="controller/pro_shop_beta.php" method="POST" autocomplete="off" aria-autocomplete="none">
+                            <div class="modal-body">
+                                <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>" required aria-required="true">
+                                <div class="from-group">
+                                    <label for="link_beta">Link URL</label>
+                                    <textarea name="link_beta" id="link_beta" rows="5" class="form-control" placeholder="place URL Product seperate by comma" required aria-required="true"></textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
